@@ -27,7 +27,7 @@ const CartButton = styled(Button)`
   position: relative;
 `;
 
-const CartCounter = styled.div`
+const CartCounterWrapper = styled.div`
   align-items: center;
   background-color: white;
   border-radius: 100%;
@@ -48,26 +48,28 @@ const CartCounter = styled.div`
 
 export default function Header() {
   function handleClick() {
-    console.log('Button is working!')
+    console.log('Button is working!');
   }
 
   return (
     <StyledHeader>
       <div>
-        <Button onClick={handleClick}>
+        <Button onClick={handleClick} data-testid="menu-button">
           <MenuIcon />
         </Button>
         <Logo />
       </div>
       <div>
-        <Button onClick={handleClick}>
+        <Button onClick={handleClick} data-testid="search-button">
           <SearchIcon />
         </Button>
         <CartButton onClick={handleClick}>
           <img src={cartImg} alt="cart" />
-          <CartCounter>
-            { localStorage.getItem('cart') ? <span>15</span> : <span>0</span> }
-          </CartCounter>
+          <CartCounterWrapper>
+            <span data-testid="cart-counter">
+              { localStorage.getItem('cart') ? 15 : 0 }
+            </span>
+          </CartCounterWrapper>
         </CartButton>
       </div>
     </StyledHeader>
