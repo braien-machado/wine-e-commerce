@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import IProduct from '../interfaces/Product';
 import PrimaryButton from '../styles/PrimaryButton';
+import priceToReal from '../helpers/priceToReal';
 
 interface ProductCardProps {
   product: IProduct;
@@ -126,13 +127,6 @@ export default function ProductCard(props: ProductCardProps) {
       priceNonMember,
     },
   } = props;
-
-  const priceToReal = (number: number) => number
-    .toLocaleString('pt-BR', {
-      currency: 'BRL',
-      minimumFractionDigits: 2,
-      style: 'currency',
-    });
 
   return (
     <CardContainer>
