@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import IProduct from '../interfaces/Product';
 import PrimaryButton from '../styles/PrimaryButton';
 import priceToReal from '../helpers/priceToReal';
+import { addToCart } from '../helpers/localStorage';
 
 interface ProductCardProps {
   product: IProduct;
@@ -117,16 +118,19 @@ const AddButton = styled(PrimaryButton)`
 `;
 
 export default function ProductCard(props: ProductCardProps) {
+  const { product } = props;
   const {
-    product: {
-      discount,
-      image,
-      name,
-      price,
-      priceMember,
-      priceNonMember,
-    },
-  } = props;
+    discount,
+    image,
+    name,
+    price,
+    priceMember,
+    priceNonMember,
+  } = product;
+
+  function addProductToCart() {
+    addToCart(product);
+  }
 
   return (
     <CardContainer>
@@ -157,7 +161,7 @@ export default function ProductCard(props: ProductCardProps) {
           <p>{`NÃO SÓCIO ${priceToReal(priceNonMember)}`}</p>
         </PriceNonMemberWrapper>
       </Card>
-      <AddButton type="button">Adicionar</AddButton>
+      <AddButton type="button" onClick={() => addProductToCart()}>Adicionar</AddButton>
     </CardContainer>
   );
 }

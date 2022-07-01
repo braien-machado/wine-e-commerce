@@ -85,7 +85,7 @@ export default function Products() {
   useEffect(() => {
     async function fetchApi() {
       const productsFromApi = await getProducts();
-      console.log(productsFromApi);
+
       setInfo(productsFromApi);
     }
 
