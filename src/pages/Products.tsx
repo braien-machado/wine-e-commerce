@@ -92,11 +92,21 @@ export default function Products() {
     fetchApi();
   }, []);
 
+  async function handleClick() {
+    const newProducts = await getProducts(1, info.itemsPerPage + 8);
+
+    setInfo(newProducts);
+  }
+
   if (!info.totalItems) {
     return (
       <div>
         <Header />
-        Nenhum produto encontrado
+        <Main>
+          <ResultDiv>
+            Nenhum produto encontrado
+          </ResultDiv>
+        </Main>
       </div>
     );
   }
@@ -106,7 +116,7 @@ export default function Products() {
       <Header />
       <Main>
         <ResultDiv>
-          <span>49</span>
+          <span>{info.totalItems}</span>
           produtos encontrados
         </ResultDiv>
         <Section>
@@ -117,12 +127,12 @@ export default function Products() {
           }
         </Section>
         <MoreContentButtonContainer>
-          <Button type="button">Mostrar mais</Button>
+          <Button type="button" onClick={() => handleClick()}>Mostrar mais</Button>
           <p>
             Exibindo
-            <span>8</span>
+            <span>{info.itemsPerPage}</span>
             de
-            <span>48</span>
+            <span>{info.totalItems}</span>
             produtos no total
           </p>
         </MoreContentButtonContainer>
