@@ -1,5 +1,6 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 
 import Header from '../components/Header';
 
@@ -10,7 +11,7 @@ describe('Header component', () => {
     const menuButton = screen.getByTestId(/menu-button/i);
     const searchButton = screen.getByTestId(/search-button/i);
     const cartCounter = screen.getByTestId(/cart-counter/i);
-  
+
     expect(menuButton).toBeInTheDocument();
     expect(searchButton).toBeInTheDocument();
     expect(cartCounter).toBeInTheDocument();
@@ -33,7 +34,7 @@ describe('Header component', () => {
       render(<Header />);
 
       const cartCounter = screen.getByTestId(/cart-counter/i);
-    
+
       expect(cartCounter.innerHTML).not.toBe('0');
     });
   });
