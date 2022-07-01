@@ -127,7 +127,11 @@ export default function Products() {
           }
         </Section>
         <MoreContentButtonContainer>
-          <Button type="button" onClick={() => handleClick()}>Mostrar mais</Button>
+          {
+            info.itemsPerPage === info.totalItems ? null : (
+              <Button type="button" onClick={() => handleClick()}>Mostrar mais</Button>
+            )
+          }
           <p>
             Exibindo
             <span>{info.itemsPerPage}</span>
