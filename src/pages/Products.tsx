@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
 import IProduct from '../interfaces/Product';
 import getProducts from '../service/api';
+import PrimaryButton from '../styles/PrimaryButton';
 
 interface ProductsInfo {
   items: IProduct[];
@@ -35,6 +36,14 @@ const ResultDiv = styled.div`
   }
 `;
 
+const Section = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 24px;
+`;
+
 const MoreContentButtonContainer = styled.div`
   align-items: center;
   color: #888888;
@@ -46,24 +55,6 @@ const MoreContentButtonContainer = styled.div`
   margin: 30px 0;
   width: 343px;
 
-  button {
-    background-color: inherit;
-    border-radius: 4px;
-    border: 2px solid #C81A78;
-    color: #C81A78;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 16px;
-    padding: 10px 0;
-    transition-duration: 150ms;
-    width: 100%;
-
-    &:hover {
-      background-color: #C81A78;
-      color: white;
-    }
-  }
-
   p {
     display: flex;
     gap: 4px;
@@ -72,6 +63,19 @@ const MoreContentButtonContainer = styled.div`
   span {
     color: #1D1D1B;
     font-weight: 700;
+  }
+`;
+
+const Button = styled(PrimaryButton)`
+  background-color: inherit;
+  border-color: #C81A78;
+  color: #C81A78;
+  padding: 10px 0;
+
+  &:hover {
+    background-color: #C81A78;
+    border-color: #C81A78;
+    color: white;
   }
 `;
 
@@ -105,11 +109,15 @@ export default function Products() {
           <span>49</span>
           produtos encontrados
         </ResultDiv>
-        <section>
-          <ProductCard product={info.items[0]} />
-        </section>
+        <Section>
+          {
+            info.items.map((item) => (
+              <ProductCard product={item} key={item.id} />
+            ))
+          }
+        </Section>
         <MoreContentButtonContainer>
-          <button type="button">Mostrar mais</button>
+          <Button type="button">Mostrar mais</Button>
           <p>
             Exibindo
             <span>8</span>
