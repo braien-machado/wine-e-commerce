@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
 import MenuIcon from './MenuIcon';
@@ -54,16 +55,16 @@ export default function Header() {
   return (
     <StyledHeader>
       <div>
-        <Button onClick={handleClick} data-testid="menu-button">
+        <Button onClick={() => handleClick()} data-testid="menu-button">
           <MenuIcon />
         </Button>
         <Logo />
       </div>
       <div>
-        <Button onClick={handleClick} data-testid="search-button">
+        <Button onClick={() => handleClick()} data-testid="search-button">
           <SearchIcon />
         </Button>
-        <CartButton onClick={handleClick}>
+        <CartButton onClick={() => handleClick()}>
           <img src={cartImg} alt="cart" />
           <CartCounterWrapper>
             <span data-testid="cart-counter">
