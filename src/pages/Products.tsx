@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
 import IProduct from '../interfaces/Product';
-import getProducts from '../service/api';
+import getProducts from '../helpers/api';
 import PrimaryButton from '../styles/PrimaryButton';
 
 interface ProductsInfo {
@@ -85,7 +85,7 @@ export default function Products() {
   useEffect(() => {
     async function fetchApi() {
       const productsFromApi = await getProducts();
-
+      console.log(productsFromApi);
       setInfo(productsFromApi);
     }
 
@@ -104,7 +104,7 @@ export default function Products() {
         <Header />
         <Main>
           <ResultDiv>
-            Nenhum produto encontrado
+            Carregando produtos...
           </ResultDiv>
         </Main>
       </div>
