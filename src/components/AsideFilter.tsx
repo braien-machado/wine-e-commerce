@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Aside = styled.aside`
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 32px;
-  margin: 39.77px 0 0 160px;
+  margin-left: 160px;
   width: 256px;
+
+  @media screen and (min-width: 1024px) {
+    display: flex;
+  }
 
   p {
     color: #000000;
