@@ -21,19 +21,19 @@ const LinksContainer = styled.ul`
 `;
 
 interface LinkProps {
-  current: boolean;
+  current?: string;
 }
 
 const LinkWrapper = styled.div<LinkProps>`
   align-items: center;
-  ${(props) => (props.current ? 'border-bottom: 2px solid #D14B8F;' : '')}
+  ${(props) => (!props.current ? '' : 'border-bottom: 2px solid #D14B8F;')}
   display: flex;
   height: 100%;
 `;
 
 const StyledLink = styled(Link)<LinkProps>`
-  color: ${(props) => (props.current ? '#D14B8F' : '#555555')};
-  ${(props) => (props.current ? 'pointer-events: none;' : '')}
+  color: ${(props) => (!props.current ? '#555555' : '#D14B8F')};
+  ${(props) => (props.current === 'true' ? 'pointer-events: none;' : '')}
   font-family: 'Titillium Web', sans-serif;
   font-size: 18px;
   line-height: 24px;
@@ -47,9 +47,9 @@ export default function Navbar() {
     <LinksContainer>
       {
         links.map((link) => (
-          <LinkWrapper current={pathname === link.path} key={link.name}>
+          <LinkWrapper current={pathname === link.path ? 'true' : undefined} key={link.name}>
             <StyledLink
-              current={pathname === link.path}
+              current={pathname === link.path ? 'true' : undefined}
               to={link.path}
             >
               {link.name}
