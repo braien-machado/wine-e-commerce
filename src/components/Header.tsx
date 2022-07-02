@@ -4,6 +4,7 @@ import Logo from './Logo';
 import MenuIcon from './MenuIcon';
 import SearchIcon from './SearchIcon';
 import cartImg from '../assets/cart.png';
+import ICartProduct from '../interfaces/CartProduct';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -47,7 +48,19 @@ const CartCounterWrapper = styled.div`
   }
 `;
 
-export default function Header() {
+interface HeaderProps {
+  cart: ICartProduct[]
+}
+
+export default function Header(props: HeaderProps) {
+  const { cart } = props;
+  console.log(cart);
+
+  function countProducts() {
+    const counter = cart.reduce((acc, cur) => acc + cur.quantity, 0);
+    return counter;
+  }
+
   function handleClick() {
     console.log('Button is working!');
   }
@@ -68,7 +81,7 @@ export default function Header() {
           <img src={cartImg} alt="cart" />
           <CartCounterWrapper>
             <span data-testid="cart-counter">
-              { localStorage.getItem('cart') ? 15 : 0 }
+              { cart ? countProducts() : 0 }
             </span>
           </CartCounterWrapper>
         </CartButton>

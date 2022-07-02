@@ -104,7 +104,7 @@ export default function Products() {
   if (!info.totalItems) {
     return (
       <div>
-        <Header />
+        <Header cart={cart} />
         <Main>
           <ResultDiv>
             Carregando produtos...
@@ -116,7 +116,7 @@ export default function Products() {
 
   return (
     <div>
-      <Header />
+      <Header cart={cart} />
       <Main>
         <ResultDiv>
           <span>{info.totalItems}</span>
