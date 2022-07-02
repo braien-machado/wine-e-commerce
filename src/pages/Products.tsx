@@ -121,9 +121,8 @@ export default function Products() {
     fetchApi();
   }, []);
 
-  async function handleClick() {
-    const newProducts = await getProducts(1, info.itemsPerPage + 8);
-
+  async function handleClick(page: number, itemsPerPage: number) {
+    const newProducts = await getProducts(page, itemsPerPage);
     setInfo(newProducts);
   }
 
@@ -160,7 +159,12 @@ export default function Products() {
           <MoreContentButtonContainer>
             {
               info.itemsPerPage === info.totalItems ? null : (
-                <SecondaryButton type="button" onClick={() => handleClick()}>Mostrar mais</SecondaryButton>
+                <SecondaryButton
+                  type="button"
+                  onClick={() => handleClick(1, info.itemsPerPage + 8)}
+                >
+                  Mostrar mais
+                </SecondaryButton>
               )
             }
             <p>
@@ -171,7 +175,11 @@ export default function Products() {
               produtos no total
             </p>
           </MoreContentButtonContainer>
-          <PaginationButtons page={info.page} totalPages={info.totalPages} />
+          <PaginationButtons
+            handleClick={(page: number, itemsPerPage: number) => handleClick(page, itemsPerPage)}
+            page={info.page}
+            totalPages={info.totalPages}
+          />
         </Main>
       </MainContainer>
     </div>

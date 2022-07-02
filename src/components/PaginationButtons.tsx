@@ -5,7 +5,9 @@ import ArrowIcon from './ArrowIcon';
 
 interface PaginationButtonsProps {
   page: number;
-  totalPages: number
+  totalPages: number;
+  // eslint-disable-next-line no-unused-vars
+  handleClick: (page: number, itemsPerPage: number) => Promise<void>
 }
 
 interface PageButtonProps {
@@ -24,7 +26,7 @@ const PageButton = styled(SecondaryButton)<PageButtonProps>`
 const Container = styled.div`
   align-items: center;
   color: #C81A78;
-  display: flex;
+  display: none;
   gap: 8px;
   margin-top: 26.64px;
   
@@ -35,6 +37,10 @@ const Container = styled.div`
 
   .page-button:nth-of-type(2) {
     width: 73px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    display: flex;
   }
 `;
 
@@ -56,14 +62,18 @@ const Button = styled.button`
 `;
 
 export default function PaginationButtons(props: PaginationButtonsProps) {
-  const { page, totalPages } = props;
+  const { page, totalPages, handleClick } = props;
 
-  const PAGES_BUTTONS_NUMBER = 3;
+  const PAGES_BUTTONS_NUMBER = 2;
 
   const previousButton = () => {
     if (page > 1) {
       return (
-        <Button type="button" key="previous-page-btn">
+        <Button
+          type="button"
+          key="previous-page-btn"
+          onClick={() => handleClick(page - 1, 9)}
+        >
           <ArrowIcon flip />
           Anterior
         </Button>
@@ -84,7 +94,11 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
   const nextButton = () => {
     if (page !== totalPages) {
       return (
-        <Button type="button" key="next-page-btn">
+        <Button
+          type="button"
+          key="next-page-btn"
+          onClick={() => handleClick(page + 1, 9)}
+        >
           Próximo
           <ArrowIcon flip={undefined} />
         </Button>
@@ -95,7 +109,7 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
   };
 
   const pagesAfterSign = () => {
-    if (page < totalPages - 3) {
+    if (page <= totalPages - PAGES_BUTTONS_NUMBER) {
       return (<span key="pages-after">...</span>);
     }
 
@@ -123,7 +137,15 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
       if (i === page) {
         buttons.push(<PageButton className="page-button" current key={`${i}-${totalPages}`}>{i}</PageButton>);
       } else {
-        buttons.push(<PageButton className="page-button" key={`${i}-${totalPages}`}>{i}</PageButton>);
+        buttons.push(
+          <PageButton
+            className="page-button"
+            key={`${i}-${totalPages}`}
+            onClick={() => handleClick(i, 9)}
+          >
+            {i}
+          </PageButton>,
+        );
       }
     }
 

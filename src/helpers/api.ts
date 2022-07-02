@@ -1,4 +1,4 @@
-async function getProducts(page = 1, limit = 8) {
+async function getProducts(page = 1, limit = 9) {
   const data = await fetch(`https://wine-back-test.herokuapp.com/products?page=${page}&limit=${limit}`)
     .then((result) => result.json());
 
