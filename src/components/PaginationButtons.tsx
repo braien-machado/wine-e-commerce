@@ -23,7 +23,11 @@ const PageButton = styled(SecondaryButton)<PageButtonProps>`
   width: 38px;
 `;
 
-const Container = styled.div`
+interface ContainerProps {
+  page: number;
+}
+
+const Container = styled.div<ContainerProps>`
   align-items: center;
   color: #C81A78;
   display: none;
@@ -35,7 +39,7 @@ const Container = styled.div`
     line-height: 9px;
   }
 
-  .page-button:nth-of-type(2) {
+  .page-button:nth-of-type(${(props) => (props.page === 1 ? 2 : 3)}) {
     width: 73px;
   }
 
@@ -135,7 +139,15 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
 
     for (let i = startPage; i <= endPage; i += 1) {
       if (i === page) {
-        buttons.push(<PageButton className="page-button" current key={`${i}-${totalPages}`}>{i}</PageButton>);
+        buttons.push(
+          <PageButton
+            className="page-button"
+            current
+            key={`${i}-${totalPages}`}
+          >
+            {i}
+          </PageButton>,
+        );
       } else {
         buttons.push(
           <PageButton
@@ -161,7 +173,7 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
   ]);
 
   return (
-    <Container>
+    <Container page={page}>
       { generateButtons() }
     </Container>
   );
