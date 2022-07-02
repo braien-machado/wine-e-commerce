@@ -7,6 +7,7 @@ import getProducts from '../helpers/api';
 import PrimaryButton from '../styles/PrimaryButton';
 import useLocalStorage from '../helpers/useLocalStorage';
 import ICartProduct from '../interfaces/CartProduct';
+import AsideFilter from '../components/AsideFilter';
 
 interface ProductsInfo {
   items: IProduct[];
@@ -81,6 +82,11 @@ const Button = styled(PrimaryButton)`
   }
 `;
 
+const MainContainer = styled.div`
+  display: flex;
+  gap: 32px;
+`;
+
 export default function Products() {
   const [info, setInfo] = useState({} as ProductsInfo);
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
@@ -117,33 +123,36 @@ export default function Products() {
   return (
     <div>
       <Header cart={cart} />
-      <Main>
-        <ResultDiv>
-          <span>{info.totalItems}</span>
-          produtos encontrados
-        </ResultDiv>
-        <Section>
-          {
-            info.items.map((item) => (
-              <ProductCard product={item} key={item.id} updateCart={setCart} />
-            ))
-          }
-        </Section>
-        <MoreContentButtonContainer>
-          {
-            info.itemsPerPage === info.totalItems ? null : (
-              <Button type="button" onClick={() => handleClick()}>Mostrar mais</Button>
-            )
-          }
-          <p>
-            Exibindo
-            <span>{info.itemsPerPage}</span>
-            de
+      <MainContainer>
+        <AsideFilter />
+        <Main>
+          <ResultDiv>
             <span>{info.totalItems}</span>
-            produtos no total
-          </p>
-        </MoreContentButtonContainer>
-      </Main>
+            produtos encontrados
+          </ResultDiv>
+          <Section>
+            {
+              info.items.map((item) => (
+                <ProductCard product={item} key={item.id} updateCart={setCart} />
+              ))
+            }
+          </Section>
+          <MoreContentButtonContainer>
+            {
+              info.itemsPerPage === info.totalItems ? null : (
+                <Button type="button" onClick={() => handleClick()}>Mostrar mais</Button>
+              )
+            }
+            <p>
+              Exibindo
+              <span>{info.itemsPerPage}</span>
+              de
+              <span>{info.totalItems}</span>
+              produtos no total
+            </p>
+          </MoreContentButtonContainer>
+        </Main>
+      </MainContainer>
     </div>
   );
 }
