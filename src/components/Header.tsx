@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
 import MenuIcon from './MenuIcon';
@@ -8,6 +8,7 @@ import cartImg from '../assets/cart.png';
 import ICartProduct from '../interfaces/CartProduct';
 import Navbar from './Navbar';
 import ResponsiveProps from '../interfaces/ResponsiveProps';
+import PrimaryButton from '../styles/PrimaryButton';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -89,12 +90,41 @@ const CartCounterWrapper = styled.div`
   }
 `;
 
+interface SearchContentWrapperProps {
+  isVisible: boolean;
+}
+
+const SearchContentWrapper = styled.div<SearchContentWrapperProps>`
+  display: ${(props) => (props.isVisible ? 'flex' : 'none')};
+  gap: 8px;
+  top: 90px;
+  right: 20px;
+  position: absolute;
+
+  input {
+    border: 1px solid #7EBC43;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  @media screen and (min-width: 768px) {
+    top: 100px;
+    right: 20px;
+  }
+`;
+
+const SearchContentButton = styled(PrimaryButton)`
+  padding: 6px 12px;
+`;
+
 interface HeaderProps {
   cart: ICartProduct[]
 }
 
 export default function Header(props: HeaderProps) {
   const { cart } = props;
+  const [searchText, setSearchText] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
 
   function countProducts() {
     const counter = cart.reduce((acc, cur) => acc + cur.quantity, 0);
@@ -115,9 +145,17 @@ export default function Header(props: HeaderProps) {
         <Navbar />
       </LogoContainer>
       <Container>
-        <SearchButton onClick={() => handleClick()} data-testid="search-button">
+        <SearchButton onClick={() => setIsVisible(!isVisible)} data-testid="search-button">
           <SearchIcon />
         </SearchButton>
+        <SearchContentWrapper isVisible={isVisible}>
+          <input
+            value={searchText}
+            id="text-input"
+            onChange={(event) => setSearchText(event.target.value)}
+          />
+          <SearchContentButton type="button">Buscar</SearchContentButton>
+        </SearchContentWrapper>
         <Button desktopOnly onClick={() => handleClick()} data-testid="profile-button">
           <ProfileIcon />
         </Button>
