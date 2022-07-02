@@ -5,6 +5,8 @@ import ProductCard from '../components/ProductCard';
 import IProduct from '../interfaces/Product';
 import getProducts from '../helpers/api';
 import PrimaryButton from '../styles/PrimaryButton';
+import useLocalStorage from '../helpers/useLocalStorage';
+import ICartProduct from '../interfaces/CartProduct';
 
 interface ProductsInfo {
   items: IProduct[];
@@ -81,6 +83,7 @@ const Button = styled(PrimaryButton)`
 
 export default function Products() {
   const [info, setInfo] = useState({} as ProductsInfo);
+  const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
 
   useEffect(() => {
     async function fetchApi() {
@@ -122,7 +125,7 @@ export default function Products() {
         <Section>
           {
             info.items.map((item) => (
-              <ProductCard product={item} key={item.id} />
+              <ProductCard product={item} key={item.id} updateCart={setCart} />
             ))
           }
         </Section>

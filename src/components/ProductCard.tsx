@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import IProduct from '../interfaces/Product';
+import ICartProduct from '../interfaces/CartProduct';
 import PrimaryButton from '../styles/PrimaryButton';
 import priceToReal from '../helpers/priceToReal';
 import { addToCart } from '../helpers/localStorage';
 
 interface ProductCardProps {
   product: IProduct;
+  // eslint-disable-next-line no-unused-vars
+  updateCart: (value: ICartProduct[]) => void
 }
 
 const CardContainer = styled.div`
@@ -118,7 +121,7 @@ const AddButton = styled(PrimaryButton)`
 `;
 
 export default function ProductCard(props: ProductCardProps) {
-  const { product } = props;
+  const { product, updateCart } = props;
   const {
     discount,
     image,
@@ -129,7 +132,7 @@ export default function ProductCard(props: ProductCardProps) {
   } = product;
 
   function addProductToCart() {
-    addToCart(product);
+    addToCart(product, updateCart);
   }
 
   return (

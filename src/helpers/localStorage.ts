@@ -6,20 +6,21 @@ export const getCart = (): null | ICartProduct[] => {
   return data ? JSON.parse(data) : data;
 };
 
-export const addToCart = (product: IProduct) => {
+// eslint-disable-next-line no-unused-vars
+export const addToCart = (product: IProduct, updateCart: (value: ICartProduct[]) => void) => {
   const data = getCart();
 
   if (!data) {
     const cart = [{ ...product, quantity: 1 }];
-    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart(cart);
   } else {
     const index = data.findIndex((item: IProduct) => item.id === product.id);
     if (index === -1) {
       data.push({ ...product, quantity: 1 });
-      localStorage.setItem('cart', JSON.stringify(data));
+      updateCart(data);
     } else {
       data[index] = { ...data[index], quantity: data[index].quantity + 1 };
-      localStorage.setItem('cart', JSON.stringify(data));
+      updateCart(data);
     }
   }
 };
