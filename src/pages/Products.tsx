@@ -2,21 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
-import IProduct from '../interfaces/Product';
-import getProducts from '../helpers/api';
+import getProducts, { getFilteredProducts } from '../helpers/api';
 import SecondaryButton from '../styles/SecondaryButton';
 import useLocalStorage from '../helpers/useLocalStorage';
 import ICartProduct from '../interfaces/CartProduct';
 import AsideFilter from '../components/AsideFilter';
 import PaginationButtons from '../components/PaginationButtons';
-
-interface ProductsInfo {
-  items: IProduct[];
-  itemsPerPage: number;
-  page: number;
-  totalItems: number;
-  totalPages: number;
-}
+import ProductsInfo from '../interfaces/ProductsInfo';
 
 const Main = styled.main`
   align-items: center;
@@ -122,23 +114,32 @@ const MainContainer = styled.div`
   }
 `;
 
+type Filters = string[] | [];
+
 export default function Products() {
   const [info, setInfo] = useState({} as ProductsInfo);
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
+  const [filters, setFilters] = useState([] as Filters);
+
+  async function checkFilters(page = 1, limit = 9) {
+    if (filters.length > 0) {
+      return getFilteredProducts(info.totalItems);
+    }
+    return getProducts(page, limit);
+  }
 
   useEffect(() => {
     async function fetchApi() {
-      const productsFromApi = await getProducts();
-
+      const productsFromApi = await checkFilters();
       setInfo(productsFromApi);
     }
 
     fetchApi();
-  }, []);
+  }, [filters]);
 
   async function handleClick(page: number, itemsPerPage: number) {
-    const newProducts = await getProducts(page, itemsPerPage);
-    setInfo(newProducts);
+    const productsFromApi = await checkFilters(page, itemsPerPage);
+    setInfo(productsFromApi);
   }
 
   if (!info.totalItems) {
@@ -158,7 +159,10 @@ export default function Products() {
     <div>
       <Header cart={cart} />
       <MainContainer>
-        <AsideFilter />
+        <AsideFilter
+          setFilters={(array: Filters) => setFilters(array)}
+          filters={filters}
+        />
         <Main>
           <ResultDiv>
             <span>{info.totalItems}</span>

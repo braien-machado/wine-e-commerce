@@ -58,35 +58,78 @@ const Aside = styled.aside`
     cursor: pointer;
 
     &:checked {
-      background-color: #CCCCCC;
+      background-color: #7EBC43;
+      border-color: #7EBC43;
     }
   }
 `;
 
-export default function AsideFilter() {
+type Filters = string[] | [];
+
+interface AsideFilterProps {
+  // eslint-disable-next-line no-unused-vars
+  setFilters: (array: Filters) => void;
+  filters: string[];
+}
+
+export default function AsideFilter(props: AsideFilterProps) {
+  const { setFilters, filters } = props;
+
+  function toggleFilter(target: HTMLInputElement) {
+    if (filters.some((filter) => target.id === filter)) {
+      return setFilters(filters.filter((filter) => filter !== target.id));
+    }
+    return setFilters([...filters, target.id]);
+  }
+
   return (
     <Aside>
       <p>Refine sua busca</p>
       <div>
         <span>Por preço</span>
         <label htmlFor="0-40">
-          <input type="checkbox" id="0-40" name="price-range" />
+          <input
+            id="0-40"
+            name="price-range"
+            onChange={(event) => toggleFilter(event.target)}
+            type="checkbox"
+          />
           Até R$40
         </label>
         <label htmlFor="40-60">
-          <input type="checkbox" id="40-60" name="price-range" />
+          <input
+            id="40-60"
+            name="price-range"
+            onChange={(event) => toggleFilter(event.target)}
+            type="checkbox"
+          />
           R$40 A R$60
         </label>
         <label htmlFor="100-200">
-          <input type="checkbox" id="100-200" name="price-range" />
+          <input
+            id="100-200"
+            name="price-range"
+            onChange={(event) => toggleFilter(event.target)}
+            type="checkbox"
+          />
           R$100 A R$200
         </label>
         <label htmlFor="200-500">
-          <input type="checkbox" id="200-500" name="price-range" />
+          <input
+            id="200-500"
+            name="price-range"
+            onChange={(event) => toggleFilter(event.target)}
+            type="checkbox"
+          />
           R$200 A R$500
         </label>
         <label htmlFor="500+">
-          <input type="checkbox" id="500+" name="price-range" />
+          <input
+            id="500+"
+            name="price-range"
+            onChange={(event) => toggleFilter(event.target)}
+            type="checkbox"
+          />
           Acima de R$500
         </label>
       </div>
