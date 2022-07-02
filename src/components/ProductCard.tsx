@@ -5,6 +5,7 @@ import ICartProduct from '../interfaces/CartProduct';
 import PrimaryButton from '../styles/PrimaryButton';
 import priceToReal from '../helpers/priceToReal';
 import { addToCart } from '../helpers/localStorage';
+import badge from '../assets/badge.png';
 
 interface ProductCardProps {
   product: IProduct;
@@ -17,6 +18,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
   width: 156px;
 `;
 
@@ -26,10 +28,6 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   height: 348px;
-
-  img {
-    margin-top: 15.96px;
-  }
 
   h1 {
     font-size: 14px;
@@ -120,6 +118,17 @@ const AddButton = styled(PrimaryButton)`
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
 `;
 
+const ProductImage = styled.img`
+  margin-top: 15.96px;
+`;
+
+const Badge = styled.img`
+  left: 7.8px;
+  position: absolute;
+  top: 160px;
+  margin: 0;
+`;
+
 export default function ProductCard(props: ProductCardProps) {
   const { product, updateCart } = props;
   const {
@@ -138,7 +147,8 @@ export default function ProductCard(props: ProductCardProps) {
   return (
     <CardContainer>
       <Card>
-        <img src={image} alt={name} height={181} />
+        <ProductImage src={image} alt={name} height={181} />
+        <Badge src={badge} alt="black wine badge" />
         <h1>{name}</h1>
         <DiscountContainer>
           <PriceSpan>{priceToReal(price)}</PriceSpan>
