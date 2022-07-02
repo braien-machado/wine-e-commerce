@@ -87,23 +87,23 @@ export default function AsideFilter(props: AsideFilterProps) {
       <p>Refine sua busca</p>
       <div>
         <span>Por preço</span>
-        <label htmlFor="0-40">
+        <label htmlFor="0-50">
           <input
-            id="0-40"
+            id="0-50"
             name="price-range"
             onChange={(event) => toggleFilter(event.target)}
             type="checkbox"
           />
-          Até R$40
+          Até R$50
         </label>
-        <label htmlFor="40-60">
+        <label htmlFor="50-100">
           <input
-            id="40-60"
+            id="50-100"
             name="price-range"
             onChange={(event) => toggleFilter(event.target)}
             type="checkbox"
           />
-          R$40 A R$60
+          R$50 A R$100
         </label>
         <label htmlFor="100-200">
           <input

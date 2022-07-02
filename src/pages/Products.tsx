@@ -114,16 +114,16 @@ const MainContainer = styled.div`
   }
 `;
 
-type Filters = string[] | [];
+type Filter = '0-50' | '50-100' | '100-200' | '200-500' | '500+';
 
 export default function Products() {
   const [info, setInfo] = useState({} as ProductsInfo);
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
-  const [filters, setFilters] = useState([] as Filters);
+  const [filters, setFilters] = useState([] as (Filter | null)[]);
 
   async function checkFilters(page = 1, limit = 9) {
     if (filters.length > 0) {
-      return getFilteredProducts(info.totalItems, page, limit);
+      return getFilteredProducts(filters as Filter[], info.totalItems, page, limit);
     }
     return getProducts(page, limit);
   }
