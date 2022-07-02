@@ -121,18 +121,22 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
   };
 
   const pages = () => {
-    const buttons = [];
+    const buttons: JSX.Element[] = [];
     const isFirstPage = page === 1;
     const isLastPage = page === totalPages;
+
+    if (totalPages === 1) {
+      return buttons;
+    }
 
     let startPage = 1;
     let endPage = totalPages;
 
-    if (isFirstPage) {
+    if (isFirstPage && totalPages > 3) {
       endPage = startPage + 2;
-    } else if (isLastPage) {
+    } else if (isLastPage && totalPages > 3) {
       startPage = endPage - 2;
-    } else {
+    } else if (totalPages > 3) {
       startPage = page - 1;
       endPage = page + 1;
     }
