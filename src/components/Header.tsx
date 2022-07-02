@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import Logo from './Logo';
 import MenuIcon from './MenuIcon';
 import SearchIcon from './SearchIcon';
+import ProfileIcon from './ProfileIcon';
 import cartImg from '../assets/cart.png';
 import ICartProduct from '../interfaces/CartProduct';
+import Navbar from './Navbar';
+import ResponsiveProps from '../interfaces/ResponsiveProps';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -13,16 +16,54 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   padding: 0 18.75px;
 
-  div {
-    align-items: center;
-    display: flex;
-    gap: 25px;
+  @media screen and (min-width: 768px) {
+    border-bottom: 1px solid #CCCCCC;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    height: 88px;
+    padding: 0 5%;
+  }
+
+  @media screen and (min-width: 1280px) {
+    padding: 0 152px;
   }
 `;
 
-const Button = styled.button`
+const Container = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 25px;
+
+  @media screen and (min-width: 768px) {
+    gap: 45px;
+  }
+`;
+
+const LogoContainer = styled(Container)`
+  @media screen and (min-width: 1024px) {
+    gap: 83.15px;
+  }
+`;
+
+const Button = styled.button<ResponsiveProps>`
   background-color: inherit;
   border: none;
+  display: ${(props) => (props.desktopOnly ? 'none' : 'inherit')};
+
+  @media screen and (min-width: 1024px) {
+    display: ${(props) => (props.mobileOnly ? 'none' : 'inherit')};
+  }
+`;
+
+const SearchButton = styled(Button)`
+  @media screen and (min-width: 768px) {
+    align-items: center;
+    border-radius: 100%;
+    border: 2px solid #555555;
+    display: flex;
+    height: 56px;
+    justify-content: center;
+    width: 56px;
+  }
 `;
 
 const CartButton = styled(Button)`
@@ -54,7 +95,6 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps) {
   const { cart } = props;
-  console.log(cart);
 
   function countProducts() {
     const counter = cart.reduce((acc, cur) => acc + cur.quantity, 0);
@@ -67,15 +107,19 @@ export default function Header(props: HeaderProps) {
 
   return (
     <StyledHeader>
-      <div>
-        <Button onClick={() => handleClick()} data-testid="menu-button">
+      <LogoContainer>
+        <Button mobileOnly onClick={() => handleClick()} data-testid="menu-button">
           <MenuIcon />
         </Button>
         <Logo />
-      </div>
-      <div>
-        <Button onClick={() => handleClick()} data-testid="search-button">
+        <Navbar />
+      </LogoContainer>
+      <Container>
+        <SearchButton onClick={() => handleClick()} data-testid="search-button">
           <SearchIcon />
+        </SearchButton>
+        <Button desktopOnly onClick={() => handleClick()} data-testid="profile-button">
+          <ProfileIcon />
         </Button>
         <CartButton onClick={() => handleClick()}>
           <img src={cartImg} alt="cart" />
@@ -85,7 +129,7 @@ export default function Header(props: HeaderProps) {
             </span>
           </CartCounterWrapper>
         </CartButton>
-      </div>
+      </Container>
     </StyledHeader>
   );
 }
