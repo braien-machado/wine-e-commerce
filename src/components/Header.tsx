@@ -119,10 +119,11 @@ const SearchContentButton = styled(PrimaryButton)`
 
 interface HeaderProps {
   cart: ICartProduct[]
+  searchByTerm: React.Dispatch<React.SetStateAction<string>>
 }
 
 export default function Header(props: HeaderProps) {
-  const { cart } = props;
+  const { cart, searchByTerm } = props;
   const [searchText, setSearchText] = useState('');
   const [isVisible, setIsVisible] = useState(false);
 
@@ -154,7 +155,12 @@ export default function Header(props: HeaderProps) {
             id="text-input"
             onChange={(event) => setSearchText(event.target.value)}
           />
-          <SearchContentButton type="button">Buscar</SearchContentButton>
+          <SearchContentButton
+            type="button"
+            onClick={() => searchByTerm(searchText)}
+          >
+            Buscar
+          </SearchContentButton>
         </SearchContentWrapper>
         <Button desktopOnly onClick={() => handleClick()} data-testid="profile-button">
           <ProfileIcon />

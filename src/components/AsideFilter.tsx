@@ -64,22 +64,22 @@ const Aside = styled.aside`
   }
 `;
 
-type Filters = string[] | [];
+type Filter = '0-50' | '50-100' | '100-200' | '200-500' | '500+';
 
 interface AsideFilterProps {
   // eslint-disable-next-line no-unused-vars
-  setFilters: (array: Filters) => void;
-  filters: string[];
+  setFilters: (array: Filter[] | []) => void;
+  filters: Filter[];
 }
 
 export default function AsideFilter(props: AsideFilterProps) {
   const { setFilters, filters } = props;
 
   function toggleFilter(target: HTMLInputElement) {
-    if (filters.some((filter) => target.id === filter)) {
+    if (filters.some((filter: Filter) => target.id === filter)) {
       return setFilters(filters.filter((filter) => filter !== target.id));
     }
-    return setFilters([...filters, target.id]);
+    return setFilters([...filters, target.id as Filter]);
   }
 
   return (

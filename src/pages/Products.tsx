@@ -120,6 +120,7 @@ export default function Products() {
   const [info, setInfo] = useState({} as ProductsInfo);
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
   const [filters, setFilters] = useState([] as (Filter | null)[]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   async function checkFilters(page = 1, limit = 9) {
     if (filters.length > 0) {
@@ -136,6 +137,10 @@ export default function Products() {
 
     fetchApi();
   }, [filters]);
+
+  useEffect(() => {
+
+  }, [searchTerm]);
 
   async function handleClick(page: number, itemsPerPage: number) {
     const productsFromApi = await checkFilters(page, itemsPerPage);
@@ -157,11 +162,11 @@ export default function Products() {
 
   return (
     <div>
-      <Header cart={cart} />
+      <Header cart={cart} searchByTerm={setSearchTerm} />
       <MainContainer>
         <AsideFilter
-          setFilters={(array: Filters) => setFilters(array)}
-          filters={filters}
+          setFilters={(array: Filter[] | []) => setFilters(array)}
+          filters={filters as Filter[]}
         />
         <Main>
           <ResultDiv>
