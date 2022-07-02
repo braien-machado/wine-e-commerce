@@ -33,6 +33,18 @@ const ResultDiv = styled.div`
   height: 74px;
   width: 343px;
 
+  @media screen and (min-width: 1024px) {
+    align-self: flex-start;
+    border: none;
+    color: #262626;
+    height: fit-content;
+    width: fit-content;
+
+    span {
+      color: #262626;
+    }
+  }
+
   span {
     color: #1D1D1B;
     font-weight: 700;
@@ -45,6 +57,18 @@ const Section = styled.section`
   gap: 24px;
   justify-content: center;
   margin-top: 24px;
+
+  @media screen and (min-width: 1024px) {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 32px;
+    max-width: 832px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 `;
 
 const MoreContentButtonContainer = styled.div`
@@ -85,6 +109,10 @@ const Button = styled(PrimaryButton)`
 const MainContainer = styled.div`
   display: flex;
   gap: 32px;
+
+  @media screen and (min-width: 1024px) {
+    margin: 39.77px 0 44px 160px;
+  }
 `;
 
 export default function Products() {

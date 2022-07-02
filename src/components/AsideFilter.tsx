@@ -5,11 +5,14 @@ const Aside = styled.aside`
   display: none;
   flex-direction: column;
   gap: 32px;
-  margin-left: 160px;
-  width: 256px;
+  width: fit-content;
 
   @media screen and (min-width: 1024px) {
     display: flex;
+  }
+
+  @media screen and (min-width: 1300px) {
+    width: 256px;
   }
 
   p {
