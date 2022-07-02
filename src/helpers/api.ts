@@ -40,12 +40,14 @@ export async function getFilteredProducts(filters: Filter[], page = 1, limit = 9
     );
   });
 
+  const pageItems = filteredItems.filter((_item: IProduct, index: number) => index < limit);
+
   return {
-    items: filteredItems,
-    itemsPerPage: filteredItems.length,
-    page: 1,
+    items: pageItems,
+    itemsPerPage: pageItems.length,
+    page,
     totalItems: filteredItems.length,
-    totalPages: 1,
+    totalPages: Math.ceil(filteredItems.length / pageItems.length),
   };
 }
 
