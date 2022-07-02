@@ -22,6 +22,11 @@ const Main = styled.main`
   align-items: center;
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media screen and (min-width: 1024px) {
+    width: fit-content;
+  }
 `;
 
 const ResultDiv = styled.div`
@@ -32,7 +37,13 @@ const ResultDiv = styled.div`
   font-size: 18px;
   gap: 4px;
   height: 74px;
-  width: 343px;
+  width: 91.46%;
+
+  @media screen and (min-width: 640px) {
+    align-self: flex-start;
+    margin-left: 5%;
+    border: none;
+  }
 
   @media screen and (min-width: 1024px) {
     align-self: flex-start;
@@ -53,14 +64,18 @@ const ResultDiv = styled.div`
 `;
 
 const Section = styled.section`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 24px;
-  justify-content: center;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 24px;
 
+  @media screen and (min-width: 768px) {
+    gap: 32px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 32px;
+  }
+
   @media screen and (min-width: 1024px) {
-    display: grid;
     gap: 32px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 32px;
