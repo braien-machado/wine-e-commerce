@@ -123,7 +123,7 @@ export default function Products() {
 
   async function checkFilters(page = 1, limit = 9) {
     if (filters.length > 0) {
-      return getFilteredProducts(filters as Filter[], info.totalItems, page, limit);
+      return getFilteredProducts(filters as Filter[], page, limit);
     }
     return getProducts(page, limit);
   }
