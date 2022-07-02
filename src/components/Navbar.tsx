@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const links = [
@@ -13,14 +13,27 @@ const links = [
 const LinksContainer = styled.ul`
   display: none;
   gap: 48px;
+  height: 86px;
 
   @media screen and (min-width: 1024px) {
     display: flex;
   }
 `;
 
-const StyledLink = styled(Link)`
-  color: #555555;
+interface LinkProps {
+  current: boolean;
+}
+
+const LinkWrapper = styled.div<LinkProps>`
+  align-items: center;
+  ${(props) => (props.current ? 'border-bottom: 2px solid #D14B8F;' : '')}
+  display: flex;
+  height: 100%;
+`;
+
+const StyledLink = styled(Link)<LinkProps>`
+  color: ${(props) => (props.current ? '#D14B8F' : '#555555')};
+  ${(props) => (props.current ? 'pointer-events: none;' : '')}
   font-family: 'Titillium Web', sans-serif;
   font-size: 18px;
   line-height: 24px;
@@ -28,11 +41,20 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Navbar() {
+  const { pathname } = useLocation();
+
   return (
-    <LinksContainer desktopOnly>
+    <LinksContainer>
       {
         links.map((link) => (
-          <StyledLink to={link.path} key={link.name}>{link.name}</StyledLink>
+          <LinkWrapper current={pathname === link.path} key={link.name}>
+            <StyledLink
+              current={pathname === link.path}
+              to={link.path}
+            >
+              {link.name}
+            </StyledLink>
+          </LinkWrapper>
         ))
       }
     </LinksContainer>
