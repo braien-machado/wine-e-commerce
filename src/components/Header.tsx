@@ -136,6 +136,11 @@ export default function Header(props: HeaderProps) {
     console.log('Button is working!');
   }
 
+  function handleSearch() {
+    searchByTerm(searchText);
+    setIsVisible(!isVisible);
+  }
+
   return (
     <StyledHeader>
       <LogoContainer>
@@ -157,7 +162,7 @@ export default function Header(props: HeaderProps) {
           />
           <SearchContentButton
             type="button"
-            onClick={() => searchByTerm(searchText)}
+            onClick={() => handleSearch()}
           >
             Buscar
           </SearchContentButton>
