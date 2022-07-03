@@ -64,14 +64,10 @@ const Section = styled.section`
 
   @media screen and (min-width: 768px) {
     gap: 32px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: 32px;
   }
 
   @media screen and (min-width: 1024px) {
-    gap: 32px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 32px;
     max-width: 832px;
   }
 

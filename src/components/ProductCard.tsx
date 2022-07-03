@@ -21,7 +21,7 @@ const CardContainer = styled.div`
   position: relative;
   width: 156px;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 640px) {
     border-radius: 0;
     gap: 16px;
     width: 256px;
