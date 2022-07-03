@@ -131,6 +131,27 @@ const NonMemberPriceSpan = styled.span`
   line-height: 19.2px;
 `;
 
+const CommentContainer = styled(ColumnContainer)`
+  max-width: 448px;
+
+  h2 {
+    color: #111111;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  p {
+    color: #666666;
+    flex-grow: 0;
+    font-family: Saira, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    order: 1;
+  }
+`;
+
 export default function ProductDetails() {
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -225,10 +246,10 @@ export default function ProductDetails() {
               </ColumnContainer>
             )
           }
-          <div>
+          <CommentContainer gap={8}>
             <h2>Comentário do Sommelier</h2>
             <p>{product.sommelierComment}</p>
-          </div>
+          </CommentContainer>
           <div>
             <div>
               <button type="button">-</button>
