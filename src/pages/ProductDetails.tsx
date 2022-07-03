@@ -9,6 +9,7 @@ import IProduct from '../interfaces/Product';
 import { getProductById } from '../helpers/api';
 import ArrowIcon from '../components/ArrowIcon';
 import SmallChevronIcon from '../components/SmallChevron';
+import priceToReal from '../helpers/priceToReal';
 
 interface ContainerProps {
   gap: number;
@@ -42,8 +43,9 @@ const Main = styled.main`
   gap: 162px;
 `;
 
-const InfoContainer = styled(Container)`
-  flex-direction: column;
+const Image = styled.img`
+  height: 579px;
+  width: 381px;
 `;
 
 const BreadcrumbContainer = styled(Container)`
@@ -83,6 +85,11 @@ const Summary = styled(Container)`
   }
 `;
 
+const Flag = styled.img`
+  height: 16px;
+  width: 16px;
+`;
+
 const StarsContainer = styled(Container)`
   align-items: center;
 
@@ -95,14 +102,33 @@ const StarsContainer = styled(Container)`
   }
 `;
 
-const Image = styled.img`
-  height: 579px;
-  width: 381px;
+const MemberPriceContainer = styled.div`
+  span {
+    color: #C81A78;
+    font-size: 19.47px;
+    font-weight: 900;
+    line-height: 32px;
+
+    &:nth-of-type(2) {
+      font-size: 40px;
+    }
+
+    &:nth-of-type(3) {
+      font-size: 24px;
+    }
+
+    &:nth-of-type(4) {
+      font-size: 32px;
+    }
+  }
+
 `;
 
-const Flag = styled.img`
-  height: 16px;
-  width: 16px;
+const NonMemberPriceSpan = styled.span`
+  color: #888888;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.2px;
 `;
 
 export default function ProductDetails() {
@@ -150,7 +176,7 @@ export default function ProductDetails() {
       </BackLink>
       <Main>
         <Image src={product.image} alt={product.name} />
-        <InfoContainer gap={48}>
+        <ColumnContainer gap={48}>
           <div>
             <ColumnContainer gap={16}>
               <BreadcrumbContainer gap={8}>
@@ -172,16 +198,33 @@ export default function ProductDetails() {
                     <StarsContainer gap={2}>
                       {generateStars()}
                     </StarsContainer>
-                    <span>{`(${product.avaliations})`}</span>
+                    {
+                      product.avaliations && (
+                        <span>{`(${product.avaliations})`}</span>
+                      )
+                    }
                   </Container>
                 </Summary>
               </NameContainer>
             </ColumnContainer>
           </div>
-          <div>
-            <span>R$ 63,67</span>
-            <span>NÃO SÓCIO R$ 120,95/UN</span>
-          </div>
+          {
+            product.priceNonMember
+            && product.priceMember
+            && (
+              <ColumnContainer gap={8}>
+                <MemberPriceContainer>
+                  <span>R$</span>
+                  <span>{priceToReal(product.priceMember).split(',')[0].split(/\s/)[1]}</span>
+                  <span>,</span>
+                  <span>{priceToReal(product.priceMember).split(',')[1]}</span>
+                </MemberPriceContainer>
+                <NonMemberPriceSpan>
+                  {`NÃO SÓCIO ${priceToReal(product.priceNonMember)}/UN.`}
+                </NonMemberPriceSpan>
+              </ColumnContainer>
+            )
+          }
           <div>
             <h2>Comentário do Sommelier</h2>
             <p>{product.sommelierComment}</p>
@@ -194,7 +237,7 @@ export default function ProductDetails() {
             </div>
             <button type="button">Adicionar</button>
           </div>
-        </InfoContainer>
+        </ColumnContainer>
       </Main>
     </div>
   );
