@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import IProduct from '../interfaces/Product';
 import ICartProduct from '../interfaces/CartProduct';
@@ -28,12 +29,17 @@ const CardContainer = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled(Link)`
   align-items: center;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   height: 348px;
+  text-decoration: none;
+
+  &:hover {
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4);
+  }
 
   h1 {
     font-size: 14px;
@@ -233,6 +239,7 @@ const Badge = styled.img`
 export default function ProductCard(props: ProductCardProps) {
   const { product, updateCart } = props;
   const {
+    id,
     discount,
     image,
     name,
@@ -247,7 +254,7 @@ export default function ProductCard(props: ProductCardProps) {
 
   return (
     <CardContainer>
-      <Card>
+      <Card to={`/${id}`}>
         <ProductImage src={image} alt={name} height={181} />
         <Badge src={badge} alt="black wine badge" />
         <h1>{name}</h1>
