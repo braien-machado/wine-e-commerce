@@ -9,6 +9,7 @@ import ICartProduct from '../interfaces/CartProduct';
 import Navbar from './Navbar';
 import ResponsiveProps from '../interfaces/ResponsiveProps';
 import PrimaryButton from '../styles/PrimaryButton';
+import SecondaryButton from '../styles/SecondaryButton';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -117,6 +118,10 @@ const SearchContentButton = styled(PrimaryButton)`
   padding: 6px 12px;
 `;
 
+const ClearTextButton = styled(SecondaryButton)`
+  padding: 6px 12px;
+`;
+
 interface HeaderProps {
   cart: ICartProduct[]
   searchByTerm: React.Dispatch<React.SetStateAction<string>>
@@ -139,6 +144,11 @@ export default function Header(props: HeaderProps) {
   function handleSearch() {
     searchByTerm(searchText);
     setIsVisible(!isVisible);
+  }
+
+  function clearInput() {
+    setSearchText('');
+    searchByTerm('');
   }
 
   return (
@@ -166,6 +176,12 @@ export default function Header(props: HeaderProps) {
           >
             Buscar
           </SearchContentButton>
+          <ClearTextButton
+            type="button"
+            onClick={() => clearInput()}
+          >
+            Limpar
+          </ClearTextButton>
         </SearchContentWrapper>
         <Button desktopOnly onClick={() => handleClick()} data-testid="profile-button">
           <ProfileIcon />
