@@ -11,7 +11,10 @@ const Aside = styled.aside<AsideProps>`
   display: ${(props) => (props.hidden ? 'none' : 'flex')};
   flex-direction: column;
   gap: 32px;
-  padding: 50px;
+  height: 350px;
+  justify-content: center;
+  left: 112.5px;
+  padding-left: 30px;
   position: fixed;
   top: 0;
   width: 100%;

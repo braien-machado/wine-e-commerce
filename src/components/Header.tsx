@@ -51,6 +51,10 @@ const Button = styled.button<ResponsiveProps>`
   border: none;
   display: ${(props) => (props.desktopOnly ? 'none' : 'inherit')};
 
+  &:hover {
+    cursor: pointer;
+  }
+
   @media screen and (min-width: 1024px) {
     display: ${(props) => (props.mobileOnly ? 'none' : 'inherit')};
   }
@@ -165,7 +169,7 @@ export default function Header(props: HeaderProps) {
           <MenuIcon />
         </Button>
         <Logo />
-        <Navbar />
+        <Navbar hidden={isMenuHidden} />
       </LogoContainer>
       <Container>
         <SearchButton onClick={() => setIsVisible(!isVisible)} data-testid="search-button">

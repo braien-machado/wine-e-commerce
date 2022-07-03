@@ -115,9 +115,9 @@ const CloseButton = styled(SecondaryButton)`
   border-radius: 50%;
   height: 30px;
   padding: 0;
-  position: absolute;
-  right: 20px;
-  top: 20px;
+  position: fixed;
+  right: 15px;
+  top: 15px;
   width: 30px;
   z-index: 51;
 
