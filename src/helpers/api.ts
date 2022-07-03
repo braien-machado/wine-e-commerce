@@ -7,6 +7,14 @@ async function getProducts(page = 1, limit = 9) {
   return data;
 }
 
+export async function getProductById(id: number) {
+  const data = await getProducts(1, 500);
+
+  if (!data.items) return {};
+
+  return data.items.find((item: IProduct) => item.id === id);
+}
+
 type Filter = '0-50' | '50-100' | '100-200' | '200-500' | '500+';
 
 const filterParams = {
