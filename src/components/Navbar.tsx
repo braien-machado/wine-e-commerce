@@ -97,9 +97,9 @@ export default function Navbar(props: NavbarProps) {
     <LinksContainer hidden={hidden}>
       {
         links.map((link) => (
-          <LinkWrapper current={pathname === link.path ? 'true' : undefined} key={link.name}>
+          <LinkWrapper current={pathname.includes(link.path) ? 'true' : undefined} key={link.name}>
             <StyledLink
-              current={pathname === link.path ? 'true' : undefined}
+              current={pathname.includes(link.path) ? 'true' : undefined}
               to={link.path}
             >
               {link.name}
