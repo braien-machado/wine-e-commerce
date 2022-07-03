@@ -42,7 +42,8 @@ const ResultDiv = styled.div`
     border: none;
     color: #262626;
     height: fit-content;
-    width: fit-content;
+    margin-left: 0;
+    width: max-content;
 
     span {
       color: #262626;
@@ -143,19 +144,6 @@ export default function Products() {
     setInfo(productsFromApi);
   }
 
-  if (!info.totalItems) {
-    return (
-      <div>
-        <Header cart={cart} />
-        <Main>
-          <ResultDiv>
-            Carregando produtos...
-          </ResultDiv>
-        </Main>
-      </div>
-    );
-  }
-
   return (
     <div>
       <Header cart={cart} searchByTerm={setSearchTerm} />
@@ -164,43 +152,56 @@ export default function Products() {
           setFilters={(array: Filter[] | []) => setFilters(array)}
           filters={filters as Filter[]}
         />
-        <Main>
-          <ResultDiv>
-            <span>{info.totalItems}</span>
-            produtos encontrados
-          </ResultDiv>
-          <Section>
-            {
-              info.items.map((item) => (
-                <ProductCard product={item} key={item.id} updateCart={setCart} />
-              ))
-            }
-          </Section>
-          <MoreContentButtonContainer>
-            {
-              info.itemsPerPage === info.totalItems ? null : (
-                <SecondaryButton
-                  type="button"
-                  onClick={() => handleClick(1, info.itemsPerPage + 8)}
-                >
-                  Mostrar mais
-                </SecondaryButton>
-              )
-            }
-            <p>
-              Exibindo
-              <span>{info.itemsPerPage}</span>
-              de
-              <span>{info.totalItems}</span>
-              produtos no total
-            </p>
-          </MoreContentButtonContainer>
-          <PaginationButtons
-            handleClick={(page: number, itemsPerPage: number) => handleClick(page, itemsPerPage)}
-            page={info.page}
-            totalPages={info.totalPages}
-          />
-        </Main>
+        {
+          !info.items ? (
+            <Main>
+              <ResultDiv>
+                Carregando produtos...
+              </ResultDiv>
+            </Main>
+          ) : (
+            <Main>
+              <ResultDiv>
+                {!info.totalItems ? 'Nenhum ' : <span>{info.totalItems}</span>}
+                {!info.totalItems ? 'produto encontrado' : 'produtos encontrados'}
+                { !searchTerm ? '' : ` pelo termo "${searchTerm}"`}
+              </ResultDiv>
+              <Section>
+                {
+                  info.items?.map((item) => (
+                    <ProductCard product={item} key={item.id} updateCart={setCart} />
+                  ))
+                }
+              </Section>
+              <MoreContentButtonContainer>
+                {
+                  info.itemsPerPage === info.totalItems ? null : (
+                    <>
+                      <SecondaryButton
+                        type="button"
+                        onClick={() => handleClick(1, info.itemsPerPage + 8)}
+                      >
+                        Mostrar mais
+                      </SecondaryButton>
+                      <p>
+                        Exibindo
+                        <span>{info.itemsPerPage}</span>
+                        de
+                        <span>{info.totalItems}</span>
+                        produtos no total
+                      </p>
+                    </>
+                  )
+                }
+              </MoreContentButtonContainer>
+              <PaginationButtons
+                handleClick={(page: number, itemsNumber: number) => handleClick(page, itemsNumber)}
+                page={info.page}
+                totalPages={info.totalPages}
+              />
+            </Main>
+          )
+        }
       </MainContainer>
     </div>
   );

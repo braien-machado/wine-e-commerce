@@ -65,7 +65,7 @@ export async function getFilteredProducts(filters: Filter[], page = 1, limit = 9
     itemsPerPage: pageItems.length,
     page,
     totalItems: filteredItems.length,
-    totalPages: Math.ceil(filteredItems.length / pageItems.length),
+    totalPages: Math.ceil(filteredItems.length / pageItems.length) || 1,
   };
 }
 
