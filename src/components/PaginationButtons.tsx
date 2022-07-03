@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SecondaryButton from '../styles/SecondaryButton';
-import ArrowIcon from './ArrowIcon';
+import DoubleArrowIcon from './DoubleArrowIcon';
 
 interface PaginationButtonsProps {
   page: number;
@@ -78,7 +78,7 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
           key="previous-page-btn"
           onClick={() => handleClick(page - 1, 9)}
         >
-          <ArrowIcon flip />
+          <DoubleArrowIcon flip />
           Anterior
         </Button>
       );
@@ -104,7 +104,7 @@ export default function PaginationButtons(props: PaginationButtonsProps) {
           onClick={() => handleClick(page + 1, 9)}
         >
           Próximo
-          <ArrowIcon flip={undefined} />
+          <DoubleArrowIcon flip={undefined} />
         </Button>
       );
     }

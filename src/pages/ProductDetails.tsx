@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import ICartProduct from '../interfaces/CartProduct';
 import useLocalStorage from '../helpers/useLocalStorage';
 import IProduct from '../interfaces/Product';
 import { getProductById } from '../helpers/api';
+import ArrowIcon from '../components/ArrowIcon';
 
 export default function ProductDetails() {
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
@@ -32,7 +33,41 @@ export default function ProductDetails() {
         searchByTerm={setSearchTerm}
         toggleMenu={setIsMenuHidden}
       />
-      {`Detalhes do produto com id ${id}`}
+      <Link to="/">
+        <ArrowIcon />
+        Voltar
+      </Link>
+      <main>
+        <img src={product.image} alt={product.name} />
+        <div>
+          <span>{'Vinhos > Estados Unidos > Califórnia'}</span>
+          <h1>{product.name}</h1>
+          <div>
+            <img src={product.flag} alt="country flag" />
+            <span>{product.type}</span>
+            <span>{product.classification}</span>
+            <span>{product.volume || product.size}</span>
+            <span>{product.rating}</span>
+            <span>{product.avaliations}</span>
+          </div>
+        </div>
+        <div>
+          <span>R$ 63,67</span>
+          <span>NÃO SÓCIO R$ 120,95/UN</span>
+        </div>
+        <div>
+          <h2>Comentário do Sommelier</h2>
+          <p>{product.sommelierComment}</p>
+        </div>
+        <div>
+          <div>
+            <button type="button">-</button>
+            <span>1</span>
+            <button type="button">+</button>
+          </div>
+          <button type="button">Adicionar</button>
+        </div>
+      </main>
     </div>
   );
 }

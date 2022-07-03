@@ -12,9 +12,10 @@ interface IProduct {
   priceNonMember: number;
   rating: number;
   region: string;
-  size: string;
+  size?: string;
   sommelierComment: string;
   type: string;
+  volume?: string;
 }
 
 export default IProduct;
