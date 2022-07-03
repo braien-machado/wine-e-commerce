@@ -160,9 +160,9 @@ export default function Products() {
     <div>
       <Header
         cart={cart}
+        isMenuHidden={isMenuHidden}
         searchByTerm={setSearchTerm}
         toggleMenu={setIsMenuHidden}
-        isMenuHidden={isMenuHidden}
       />
       {
         !isMenuHidden
