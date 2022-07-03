@@ -29,16 +29,34 @@ const isItemPriceInRange = (filters: Filter[], price: number) => filters
     return min < price && price <= max;
   });
 
-export async function getFilteredProducts(filters: Filter[], page = 1, limit = 9) {
-  const data = await getProducts(1, 500);
-
-  const filteredItems = data.items.filter((item: IProduct) => {
+const filterByPrice = (filters: Filter[], items: IProduct[]) => (
+  items.filter((item: IProduct) => {
     const { priceMember } = item;
 
     return (
       isItemPriceInRange(filters, priceMember)
     );
-  });
+  })
+);
+
+const filterByText = (text: string, items: IProduct[]) => (
+  items.filter((item: IProduct) => {
+    const { name } = item;
+    return name.toLowerCase().includes(text.toLowerCase());
+  })
+);
+
+export async function getFilteredProducts(filters: Filter[], page = 1, limit = 9, text = '') {
+  const data = await getProducts(1, 500);
+  let filteredItems = data.items;
+
+  if (filters.length > 0) {
+    filteredItems = filterByPrice(filters, filteredItems);
+  }
+
+  if (text.length > 0) {
+    filteredItems = filterByText(text, filteredItems);
+  }
 
   const pageItems = filteredItems.filter((_item: IProduct, index: number) => index < limit);
 

@@ -123,10 +123,10 @@ export default function Products() {
   const [searchTerm, setSearchTerm] = useState('');
 
   async function checkFilters(page = 1, limit = 9) {
-    if (filters.length > 0) {
-      return getFilteredProducts(filters as Filter[], page, limit);
+    if (!filters.length && !searchTerm) {
+      return getProducts(page, limit);
     }
-    return getProducts(page, limit);
+    return getFilteredProducts(filters as Filter[], page, limit, searchTerm);
   }
 
   useEffect(() => {
@@ -136,11 +136,7 @@ export default function Products() {
     }
 
     fetchApi();
-  }, [filters]);
-
-  useEffect(() => {
-
-  }, [searchTerm]);
+  }, [filters, searchTerm]);
 
   async function handleClick(page: number, itemsPerPage: number) {
     const productsFromApi = await checkFilters(page, itemsPerPage);
