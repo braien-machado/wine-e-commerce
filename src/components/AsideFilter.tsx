@@ -1,14 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Aside = styled.aside`
-  display: none;
+interface AsideProps {
+  hidden: boolean;
+}
+
+const Aside = styled.aside<AsideProps>`
+  background-color: white;
+  border-bottom: 1px solid #CCCCCC;
+  display: ${(props) => (props.hidden ? 'none' : 'flex')};
   flex-direction: column;
   gap: 32px;
-  width: fit-content;
-
+  padding: 50px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  
   @media screen and (min-width: 1024px) {
+    background-color: inherit;
+    border: none;
     display: flex;
+    padding: 0;
+    position: static;
+    width: fit-content;
   }
 
   @media screen and (min-width: 1300px) {
@@ -70,10 +85,11 @@ interface AsideFilterProps {
   // eslint-disable-next-line no-unused-vars
   setFilters: (array: Filter[] | []) => void;
   filters: Filter[];
+  hidden: boolean;
 }
 
 export default function AsideFilter(props: AsideFilterProps) {
-  const { setFilters, filters } = props;
+  const { setFilters, filters, hidden } = props;
 
   function toggleFilter(target: HTMLInputElement) {
     if (filters.some((filter: Filter) => target.id === filter)) {
@@ -83,7 +99,7 @@ export default function AsideFilter(props: AsideFilterProps) {
   }
 
   return (
-    <Aside>
+    <Aside hidden={hidden}>
       <p>Refine sua busca</p>
       <div>
         <span>Por preço</span>

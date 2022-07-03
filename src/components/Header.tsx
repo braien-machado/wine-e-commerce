@@ -124,11 +124,18 @@ const ClearTextButton = styled(SecondaryButton)`
 
 interface HeaderProps {
   cart: ICartProduct[]
-  searchByTerm: React.Dispatch<React.SetStateAction<string>>
+  searchByTerm: React.Dispatch<React.SetStateAction<string>>;
+  toggleMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  isMenuHidden: boolean;
 }
 
 export default function Header(props: HeaderProps) {
-  const { cart, searchByTerm } = props;
+  const {
+    cart,
+    searchByTerm,
+    toggleMenu,
+    isMenuHidden,
+  } = props;
   const [searchText, setSearchText] = useState('');
   const [isVisible, setIsVisible] = useState(false);
 
@@ -154,7 +161,7 @@ export default function Header(props: HeaderProps) {
   return (
     <StyledHeader>
       <LogoContainer>
-        <Button mobileOnly onClick={() => handleClick()} data-testid="menu-button">
+        <Button mobileOnly onClick={() => toggleMenu(!isMenuHidden)} data-testid="menu-button">
           <MenuIcon />
         </Button>
         <Logo />

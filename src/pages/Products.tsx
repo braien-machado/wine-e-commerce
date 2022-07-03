@@ -111,6 +111,21 @@ const MainContainer = styled.div`
   }
 `;
 
+const CloseButton = styled(SecondaryButton)`
+  border-radius: 50%;
+  height: 30px;
+  padding: 0;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 30px;
+  z-index: 51;
+
+  @media screen and (min-width: 1024px) {
+    display: none;
+  }
+`;
+
 type Filter = '0-50' | '50-100' | '100-200' | '200-500' | '500+';
 
 export default function Products() {
@@ -118,6 +133,7 @@ export default function Products() {
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
   const [filters, setFilters] = useState([] as (Filter | null)[]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isMenuHidden, setIsMenuHidden] = useState(true);
 
   async function checkFilters(page = 1, limit = 9) {
     if (!filters.length && !searchTerm) {
@@ -142,9 +158,26 @@ export default function Products() {
 
   return (
     <div>
-      <Header cart={cart} searchByTerm={setSearchTerm} />
+      <Header
+        cart={cart}
+        searchByTerm={setSearchTerm}
+        toggleMenu={setIsMenuHidden}
+        isMenuHidden={isMenuHidden}
+      />
+      {
+        !isMenuHidden
+        && (
+          <CloseButton
+            type="button"
+            onClick={() => setIsMenuHidden(!isMenuHidden)}
+          >
+            X
+          </CloseButton>
+        )
+      }
       <MainContainer>
         <AsideFilter
+          hidden={isMenuHidden}
           setFilters={(array: Filter[] | []) => setFilters(array)}
           filters={filters as Filter[]}
         />
