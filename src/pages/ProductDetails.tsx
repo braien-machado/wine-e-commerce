@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { Star } from 'phosphor-react';
 import Header from '../components/Header';
 import ICartProduct from '../interfaces/CartProduct';
 import useLocalStorage from '../helpers/useLocalStorage';
@@ -45,7 +46,7 @@ const InfoContainer = styled(Container)`
   flex-direction: column;
 `;
 
-const ChevronContainer = styled(Container)`
+const BreadcrumbContainer = styled(Container)`
   align-items: center;
 
   span {
@@ -59,6 +60,38 @@ const ChevronContainer = styled(Container)`
       font-weight: 400;
       line-height: 24px;
     }
+  }
+`;
+
+const NameContainer = styled(ColumnContainer)`
+  h1 {
+    color: #111111;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+`;
+
+const Summary = styled(Container)`
+  align-items: center;
+
+  span {
+    color: #555555;
+    font-size: 14px;
+    line-height: 24px;
+  }
+`;
+
+const StarsContainer = styled(Container)`
+  align-items: center;
+
+  .empty {
+    color: #F1F1F1;
+  }
+
+  .fill {
+    color: #F9B950;
   }
 `;
 
@@ -90,6 +123,19 @@ export default function ProductDetails() {
     fetchApi();
   }, []);
 
+  function generateStars() {
+    const stars = [];
+    for (let i = 1; i <= 5; i += 1) {
+      if (i <= product.rating) {
+        stars.push(<Star size={14.4} key={i} className="fill" weight="fill" />);
+      } else {
+        stars.push(<Star size={14.4} key={i} className="empty" weight="fill" />);
+      }
+    }
+
+    return stars;
+  }
+
   return (
     <div>
       <Header
@@ -106,25 +152,30 @@ export default function ProductDetails() {
         <Image src={product.image} alt={product.name} />
         <InfoContainer gap={48}>
           <div>
-            <ColumnContainer gap={18}>
-              <ChevronContainer gap={8}>
+            <ColumnContainer gap={16}>
+              <BreadcrumbContainer gap={8}>
                 <span>Vinhos</span>
                 <SmallChevronIcon />
                 <span>Estados Unidos</span>
                 <SmallChevronIcon />
                 <span>Califórnia</span>
-              </ChevronContainer>
-              <div>
+              </BreadcrumbContainer>
+              <NameContainer gap={8}>
                 <h1>{product.name}</h1>
-                <div>
+                <Summary gap={8}>
                   <Flag src={product.flag} alt="country flag" />
+                  <span>{product.country}</span>
                   <span>{product.type}</span>
                   <span>{product.classification}</span>
                   <span>{product.volume || product.size}</span>
-                  <span>{product.rating}</span>
-                  <span>{product.avaliations}</span>
-                </div>
-              </div>
+                  <Container gap={4.8}>
+                    <StarsContainer gap={2}>
+                      {generateStars()}
+                    </StarsContainer>
+                    <span>{`(${product.avaliations})`}</span>
+                  </Container>
+                </Summary>
+              </NameContainer>
             </ColumnContainer>
           </div>
           <div>
