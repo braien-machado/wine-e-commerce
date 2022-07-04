@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Star } from 'phosphor-react';
-import Header from '../components/Header';
-import ICartProduct from '../interfaces/CartProduct';
-import useLocalStorage from '../helpers/useLocalStorage';
-import IProduct from '../interfaces/Product';
+import { addToCart } from '../helpers/localStorage';
 import { getProductById } from '../helpers/api';
 import ArrowIcon from '../components/ArrowIcon';
-import SmallChevronIcon from '../components/SmallChevron';
+import Header from '../components/Header';
+import ICartProduct from '../interfaces/CartProduct';
+import IProduct from '../interfaces/Product';
 import priceToReal from '../helpers/priceToReal';
-import { addToCart } from '../helpers/localStorage';
+import SmallChevronIcon from '../components/SmallChevron';
+import useLocalStorage from '../helpers/useLocalStorage';
 
 interface ContainerProps {
   gap: number;
@@ -25,25 +25,56 @@ const ColumnContainer = styled(Container)`
   flex-direction: column;
 `;
 
+const MobileCenterColumn = styled(ColumnContainer)`
+  align-items: center;
+
+  @media screen and (min-width: 1024px) {
+    align-items: flex-start;
+  }
+`;
+
 const BackLink = styled(Link)`
+  display: none;
   align-items: center;
   color: #111111;
-  display: flex;
   font-family: 'Titillium Web', sans-serif;
   font-size: 20px;
   gap: 16px;
   height: 24px;
   line-height: 24px;
-  margin: 31.77px 0 25px 160px;
+  margin: 31.77px 0 25px 5%;
   text-decoration: none;
   width: 93px;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+  }
+
+  @media screen and (min-width: 1280px) {
+    margin-left: 160px;
+  }
 `;
 
 const Main = styled.main`
+  align-items: center;
   display: flex;
-  gap: 162px;
-  margin-bottom: 73px;
-  margin-left: 160px;
+  flex-direction: column;
+  gap: 5%;
+  margin: 32px 0;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5%;
+    margin-bottom: 73px;
+    margin-left: 5%;
+    margin-top: 0;
+  }
+  
+  @media screen and (min-width: 1280px) {
+    gap: 162px;
+    margin-left: 160px;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -51,8 +82,21 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
-  height: 579px;
-  width: 381px;
+  height: 333px;
+  width: 218px;
+
+  @media screen and (min-width: 1024px) {
+    height: 579px;
+    width: 381px;
+  }
+`;
+
+const InfoContainer = styled(ColumnContainer)`
+  max-width: 343px;
+
+  @media screen and (min-width: 1024px) {
+    max-width: 462px;
+  }
 `;
 
 const BreadcrumbContainer = styled(Container)`
@@ -61,24 +105,48 @@ const BreadcrumbContainer = styled(Container)`
   span {
     color: #C81A78;
     font-size: 14px;
-    font-weight: 700;
-    line-height: 20px;
+    line-height: 16px;
 
     &:last-of-type {
       color: #888888;
-      font-weight: 400;
-      line-height: 24px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    align-items: center;
+
+    span {
+      font-weight: 700;
+      line-height: 20px;
+
+      &:last-of-type {
+        font-weight: 400;
+        line-height: 24px;
+      }
     }
   }
 `;
 
 const NameContainer = styled(ColumnContainer)`
+  align-items: center;
+
   h1 {
+    text-align: center;
     color: #111111;
     font-family: 'Titillium Web', sans-serif;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
-    line-height: 32px;
+    line-height: 24px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    align-items: flex-start;
+    
+    h1 {
+      text-align: start;
+      font-size: 28px;
+      line-height: 32px;
+    }
   }
 `;
 
@@ -97,6 +165,14 @@ const Flag = styled.img`
   width: 16px;
 `;
 
+const ScoreContainer = styled(Container)`
+  display: none;
+
+  @media screen  and (min-width: 1024px) {
+    display: flex;
+  }
+`;
+
 const StarsContainer = styled(Container)`
   align-items: center;
 
@@ -110,39 +186,67 @@ const StarsContainer = styled(Container)`
 `;
 
 const MemberPriceContainer = styled.div`
+  align-self: center;
+
   span {
     color: #C81A78;
-    font-size: 19.47px;
-    font-weight: 900;
-    line-height: 32px;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 28px;
+  }
 
-    &:nth-of-type(2) {
-      font-size: 40px;
-    }
+  @media screen and (min-width: 1024px) {
+    align-self: flex-start;
 
-    &:nth-of-type(3) {
-      font-size: 24px;
-    }
+    span {
+      color: #C81A78;
+      font-size: 19.47px;
+      font-weight: 900;
+      line-height: 32px;
 
-    &:nth-of-type(4) {
-      font-size: 32px;
+      &:nth-of-type(2) {
+        font-size: 40px;
+      }
+
+      &:nth-of-type(3) {
+        font-size: 24px;
+      }
+
+      &:nth-of-type(4) {
+        font-size: 32px;
+      }
     }
   }
 
 `;
 
 const NonMemberPriceSpan = styled.span`
+  align-self: center;
   color: #888888;
   font-size: 16px;
   font-weight: 700;
   line-height: 19.2px;
+
+  @media screen and (min-width: 1024px) {
+    align-self: flex-start;
+  }
 `;
 
 const CommentContainer = styled(ColumnContainer)`
   max-width: 448px;
 
+
+  span {
+    color: #333333;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
   h2 {
     color: #111111;
+    display: none;
     font-family: 'Titillium Web', sans-serif;
     font-size: 16px;
     font-weight: 700;
@@ -157,10 +261,30 @@ const CommentContainer = styled(ColumnContainer)`
     line-height: 21px;
     order: 1;
   }
+
+  @media screen and (min-width: 1024px) {
+    span {
+      display: none;
+    }
+
+    h2 {
+      display: block;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
 `;
 
 const ButtonContainer = styled(Container)`
+  align-self: center;
   position: relative;
+
+  @media screen and (min-width: 1024px) {
+    align-self: flex-start;
+  }
 `;
 
 const AddButton = styled.button`
@@ -174,6 +298,7 @@ const AddButton = styled.button`
 
   span {
     align-items: center;
+    border-right: 1px solid #FFFFFF;
     color: #FFFFFF;
     display: flex;
     font-size: 24px;
@@ -182,9 +307,8 @@ const AddButton = styled.button`
     line-height: 42px;
     width: 50%;
 
-    border-right: 1px solid #FFFFFF;
-
     &:nth-of-type(2) {
+      border: none;
       font-size: 16px;
       font-weight: 700;
       line-height: 19.2px;
@@ -290,9 +414,9 @@ export default function ProductDetails() {
         <ImageWrapper>
           <Image src={product.image} alt={product.name} />
         </ImageWrapper>
-        <ColumnContainer gap={48}>
+        <InfoContainer gap={48}>
           <div>
-            <ColumnContainer gap={16}>
+            <MobileCenterColumn gap={16}>
               <BreadcrumbContainer gap={8}>
                 <span>Vinhos</span>
                 <SmallChevronIcon />
@@ -308,7 +432,7 @@ export default function ProductDetails() {
                   <span>{product.type}</span>
                   <span>{product.classification}</span>
                   <span>{product.volume || product.size}</span>
-                  <Container gap={4.8}>
+                  <ScoreContainer gap={4.8}>
                     <StarsContainer gap={2}>
                       {generateStars()}
                     </StarsContainer>
@@ -317,10 +441,10 @@ export default function ProductDetails() {
                         <span>{`(${product.avaliations})`}</span>
                       )
                     }
-                  </Container>
+                  </ScoreContainer>
                 </Summary>
               </NameContainer>
-            </ColumnContainer>
+            </MobileCenterColumn>
           </div>
           {
             product.priceNonMember
@@ -340,6 +464,7 @@ export default function ProductDetails() {
             )
           }
           <CommentContainer gap={8}>
+            <span>Descrição</span>
             <h2>Comentário do Sommelier</h2>
             <p>{product.sommelierComment}</p>
           </CommentContainer>
@@ -369,7 +494,7 @@ export default function ProductDetails() {
               </button>
             </ChangeQtyWrapper>
           </ButtonContainer>
-        </ColumnContainer>
+        </InfoContainer>
       </Main>
     </div>
   );
