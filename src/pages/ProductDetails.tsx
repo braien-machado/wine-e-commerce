@@ -10,6 +10,7 @@ import { getProductById } from '../helpers/api';
 import ArrowIcon from '../components/ArrowIcon';
 import SmallChevronIcon from '../components/SmallChevron';
 import priceToReal from '../helpers/priceToReal';
+import { addToCart } from '../helpers/localStorage';
 
 interface ContainerProps {
   gap: number;
@@ -256,6 +257,10 @@ export default function ProductDetails() {
     fetchApi();
   }, []);
 
+  function addProductToCart() {
+    addToCart(product, setCart);
+  }
+
   function generateStars() {
     const stars = [];
     for (let i = 1; i <= 5; i += 1) {
@@ -341,7 +346,7 @@ export default function ProductDetails() {
           <ButtonContainer gap={0}>
             <AddButton
               type="button"
-              onClick={() => { console.log('added') }}
+              onClick={() => addProductToCart()}
             >
               <span>{counter}</span>
               <span>Adicionar</span>
