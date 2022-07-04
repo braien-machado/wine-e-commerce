@@ -41,6 +41,12 @@ const BackLink = styled(Link)`
 const Main = styled.main`
   display: flex;
   gap: 162px;
+  margin-bottom: 73px;
+  margin-left: 160px;
+`;
+
+const ImageWrapper = styled.div`
+  max-width: 640px;
 `;
 
 const Image = styled.img`
@@ -94,7 +100,7 @@ const StarsContainer = styled(Container)`
   align-items: center;
 
   .empty {
-    color: #F1F1F1;
+    color: #d4d3d3;
   }
 
   .fill {
@@ -152,12 +158,83 @@ const CommentContainer = styled(ColumnContainer)`
   }
 `;
 
+const ButtonContainer = styled(Container)`
+  align-items: center;
+  background-color: #7EBC43;
+  border-radius: 4px;
+  height: 56px;
+  position: relative;
+  width: 328px;
+
+  span {
+    align-items: center;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 24px;
+    height: 33px;
+    justify-content: center;
+    line-height: 42px;
+    width: 50%;
+
+    border-right: 1px solid #FFFFFF;
+
+    &:nth-of-type(2) {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 19.2px;
+    }
+  }
+
+  &:hover {
+    background-color: #6aa038;
+    border-color: #6aa038;
+    cursor: pointer;
+  }
+`;
+
+const ChangeQtyContainer = styled(Container)`
+  align-items: center;
+  height: 100%;
+  left: 22px;
+  position: absolute;
+
+  button {
+    align-items: center;
+    background-color: inherit;
+    border-radius: 100%;
+    border: 1px solid #FFFFFF66;
+    color: #FFFFFF;
+    display: flex;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    height: 24px;
+    justify-content: center;
+    line-height: 27.24px;
+    transition-duration: 150ms;
+    width: 24px;
+
+    &:hover {
+      background-color: #FFFFFF;
+      color: #6aa038;
+    }
+
+    &:disabled {
+      border-color: #FFFFFF1A;
+      color: #FFFFFF1A;
+      pointer-events: none;
+    }
+  }
+`;
+
 export default function ProductDetails() {
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuHidden, setIsMenuHidden] = useState(true);
   const [product, setProduct] = useState({} as IProduct);
   const { id } = useParams();
+
+  console.log(product);
 
   useEffect(() => {
     async function fetchApi() {
@@ -196,16 +273,18 @@ export default function ProductDetails() {
         Voltar
       </BackLink>
       <Main>
-        <Image src={product.image} alt={product.name} />
+        <ImageWrapper>
+          <Image src={product.image} alt={product.name} />
+        </ImageWrapper>
         <ColumnContainer gap={48}>
           <div>
             <ColumnContainer gap={16}>
               <BreadcrumbContainer gap={8}>
                 <span>Vinhos</span>
                 <SmallChevronIcon />
-                <span>Estados Unidos</span>
+                <span>{product.country}</span>
                 <SmallChevronIcon />
-                <span>Califórnia</span>
+                <span>{product.region}</span>
               </BreadcrumbContainer>
               <NameContainer gap={8}>
                 <h1>{product.name}</h1>
@@ -220,7 +299,7 @@ export default function ProductDetails() {
                       {generateStars()}
                     </StarsContainer>
                     {
-                      product.avaliations && (
+                      product.avaliations !== undefined && (
                         <span>{`(${product.avaliations})`}</span>
                       )
                     }
@@ -250,14 +329,14 @@ export default function ProductDetails() {
             <h2>Comentário do Sommelier</h2>
             <p>{product.sommelierComment}</p>
           </CommentContainer>
-          <div>
-            <div>
+          <ButtonContainer gap={0}>
+            <ChangeQtyContainer gap={73}>
               <button type="button">-</button>
-              <span>1</span>
               <button type="button">+</button>
-            </div>
-            <button type="button">Adicionar</button>
-          </div>
+            </ChangeQtyContainer>
+            <span>1</span>
+            <span>Adicionar</span>
+          </ButtonContainer>
         </ColumnContainer>
       </Main>
     </div>
