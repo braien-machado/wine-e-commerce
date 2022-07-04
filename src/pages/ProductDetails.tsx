@@ -55,6 +55,10 @@ const Image = styled.img`
   width: 381px;
 `;
 
+const InfoContainer = styled(ColumnContainer)`
+  max-width: 462px;
+`;
+
 const BreadcrumbContainer = styled(Container)`
   align-items: center;
 
@@ -290,7 +294,7 @@ export default function ProductDetails() {
         <ImageWrapper>
           <Image src={product.image} alt={product.name} />
         </ImageWrapper>
-        <ColumnContainer gap={48}>
+        <InfoContainer gap={48}>
           <div>
             <ColumnContainer gap={16}>
               <BreadcrumbContainer gap={8}>
@@ -369,7 +373,7 @@ export default function ProductDetails() {
               </button>
             </ChangeQtyWrapper>
           </ButtonContainer>
-        </ColumnContainer>
+        </InfoContainer>
       </Main>
     </div>
   );
