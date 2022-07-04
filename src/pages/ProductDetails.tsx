@@ -25,10 +25,18 @@ const ColumnContainer = styled(Container)`
   flex-direction: column;
 `;
 
+const MobileCenterColumn = styled(ColumnContainer)`
+  align-items: center;
+
+  @media screen and (min-width: 1024px) {
+    align-items: flex-start;
+  }
+`;
+
 const BackLink = styled(Link)`
+  display: none;
   align-items: center;
   color: #111111;
-  display: flex;
   font-family: 'Titillium Web', sans-serif;
   font-size: 20px;
   gap: 16px;
@@ -38,20 +46,29 @@ const BackLink = styled(Link)`
   text-decoration: none;
   width: 93px;
 
+  @media screen and (min-width: 768px) {
+    display: flex;
+  }
+
   @media screen and (min-width: 1280px) {
     margin-left: 160px;
   }
 `;
 
 const Main = styled.main`
+  align-items: center;
   display: flex;
+  flex-direction: column;
   gap: 5%;
   margin-bottom: 73px;
-  margin-left: 5%;
+  margin-top: 32px;
 
   @media screen and (min-width: 1024px) {
+    flex-direction: row;
+    align-items: flex-start;
     gap: 5%;
     margin-left: 5%;
+    margin-top: 0;
   }
   
   @media screen and (min-width: 1280px) {
@@ -65,8 +82,13 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
-  height: 579px;
-  width: 381px;
+  height: 333px;
+  width: 218px;
+
+  @media screen and (min-width: 1024px) {
+    height: 579px;
+    width: 381px;
+  }
 `;
 
 const InfoContainer = styled(ColumnContainer)`
@@ -83,24 +105,48 @@ const BreadcrumbContainer = styled(Container)`
   span {
     color: #C81A78;
     font-size: 14px;
-    font-weight: 700;
-    line-height: 20px;
+    line-height: 16px;
 
     &:last-of-type {
       color: #888888;
-      font-weight: 400;
-      line-height: 24px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    align-items: center;
+
+    span {
+      font-weight: 700;
+      line-height: 20px;
+
+      &:last-of-type {
+        font-weight: 400;
+        line-height: 24px;
+      }
     }
   }
 `;
 
 const NameContainer = styled(ColumnContainer)`
+  align-items: center;
+
   h1 {
+    text-align: center;
     color: #111111;
     font-family: 'Titillium Web', sans-serif;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
-    line-height: 32px;
+    line-height: 24px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    align-items: flex-start;
+    
+    h1 {
+      text-align: start;
+      font-size: 28px;
+      line-height: 32px;
+    }
   }
 `;
 
@@ -196,6 +242,7 @@ const AddButton = styled.button`
 
   span {
     align-items: center;
+    border-right: 1px solid #FFFFFF;
     color: #FFFFFF;
     display: flex;
     font-size: 24px;
@@ -204,9 +251,8 @@ const AddButton = styled.button`
     line-height: 42px;
     width: 50%;
 
-    border-right: 1px solid #FFFFFF;
-
     &:nth-of-type(2) {
+      border: none;
       font-size: 16px;
       font-weight: 700;
       line-height: 19.2px;
@@ -314,7 +360,7 @@ export default function ProductDetails() {
         </ImageWrapper>
         <InfoContainer gap={48}>
           <div>
-            <ColumnContainer gap={16}>
+            <MobileCenterColumn gap={16}>
               <BreadcrumbContainer gap={8}>
                 <span>Vinhos</span>
                 <SmallChevronIcon />
@@ -342,7 +388,7 @@ export default function ProductDetails() {
                   </Container>
                 </Summary>
               </NameContainer>
-            </ColumnContainer>
+            </MobileCenterColumn>
           </div>
           {
             product.priceNonMember
