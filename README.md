@@ -12,4 +12,9 @@
 ## Acesso ao deploy
 - Para ver o deploy, basta clicar [aqui](https://wine-e-commerce.vercel.app/)
 
+## Observações
+- Apesar de não ter conseguido fazer o design 100% fiel ao modelo do figma a tempo, consegui tornar a aplicação 100% responsiva.
+- Os links do menu estão direcionando para páginas simples.
+- Os ícones de perfil e do carrinho estão com funções de teste para evento de clique.
+
 E-mail para contato: braienmp@outlook.com
