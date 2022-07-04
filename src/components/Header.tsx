@@ -126,6 +126,31 @@ const ClearTextButton = styled(SecondaryButton)`
   padding: 6px 12px;
 `;
 
+const ButtonContainer = styled.div`
+  background-color: white;
+  height: 350px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 51;
+
+  @media screen and (min-width: 1024px) {
+    display: none;
+  }
+`;
+
+const CloseButton = styled(SecondaryButton)`
+  border-radius: 50%;
+  height: 30px;
+  padding: 0;
+  position: fixed;
+  right: 15px;
+  top: 15px;
+  width: 30px;
+  z-index: 52;
+`;
+
 interface HeaderProps {
   cart: ICartProduct[]
   searchByTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -168,6 +193,19 @@ export default function Header(props: HeaderProps) {
         <Button mobileOnly onClick={() => toggleMenu(!isMenuHidden)} data-testid="menu-button">
           <MenuIcon />
         </Button>
+        {
+        !isMenuHidden
+        && (
+          <ButtonContainer>
+            <CloseButton
+              type="button"
+              onClick={() => toggleMenu(!isMenuHidden)}
+            >
+              X
+            </CloseButton>
+          </ButtonContainer>
+        )
+      }
         <Logo />
         <Navbar hidden={isMenuHidden} />
       </LogoContainer>

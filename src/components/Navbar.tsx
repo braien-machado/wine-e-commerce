@@ -10,30 +10,12 @@ const links = [
   { name: 'Eventos', path: '/events' },
 ];
 
-// background-color: white;
-//   border-bottom: 1px solid #CCCCCC;
-//   display: ${(props) => (props.hidden ? 'none' : 'flex')};
-//   flex-direction: column;
-//   gap: 32px;
-//   padding: 50px;
-//   position: fixed;
-//   top: 0;
-//   width: 100%;
-//   z-index: 50;
-
-// background-color: inherit;
-//     border: none;
-//     display: flex;
-//     padding: 0;
-//     position: static;
-//     width: fit-content;
-
 interface NavbarProps {
   hidden: boolean;
 }
 
 const LinksContainer = styled.ul<NavbarProps>`
-  background-color: white;
+  background-color: transparent;
   border-bottom: 1px solid #CCCCCC;
   display: ${(props) => (props.hidden ? 'none' : 'flex')};
   flex-direction: column;

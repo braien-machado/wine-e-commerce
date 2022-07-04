@@ -6,7 +6,7 @@ interface AsideProps {
 }
 
 const Aside = styled.aside<AsideProps>`
-  background-color: white;
+  background-color: transparent;
   border-bottom: 1px solid #CCCCCC;
   display: ${(props) => (props.hidden ? 'none' : 'flex')};
   flex-direction: column;
@@ -17,8 +17,8 @@ const Aside = styled.aside<AsideProps>`
   padding-left: 30px;
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 50;
+  width: fit-content;
+  z-index: 51;
   
   @media screen and (min-width: 1024px) {
     background-color: inherit;
