@@ -258,7 +258,7 @@ export default function ProductDetails() {
   }, []);
 
   function addProductToCart() {
-    addToCart(product, setCart);
+    addToCart(product, setCart, counter);
   }
 
   function generateStars() {
