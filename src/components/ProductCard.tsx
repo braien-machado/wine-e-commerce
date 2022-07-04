@@ -42,6 +42,7 @@ const Card = styled(Link)`
   }
 
   h1 {
+    color: #1D1D1B;
     font-size: 14px;
     font-weight: 700;
     line-height: 17px;
@@ -55,7 +56,6 @@ const Card = styled(Link)`
     height: 333px;
 
     h1 {
-      color: #1D1D1B;
       font-size: 16px;
       line-height: 19.2px;
       margin-top: 7.79px;
