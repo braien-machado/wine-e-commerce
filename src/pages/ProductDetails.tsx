@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Star } from 'phosphor-react';
-import Header from '../components/Header';
-import ICartProduct from '../interfaces/CartProduct';
-import useLocalStorage from '../helpers/useLocalStorage';
-import IProduct from '../interfaces/Product';
+import { addToCart } from '../helpers/localStorage';
 import { getProductById } from '../helpers/api';
 import ArrowIcon from '../components/ArrowIcon';
-import SmallChevronIcon from '../components/SmallChevron';
+import Header from '../components/Header';
+import ICartProduct from '../interfaces/CartProduct';
+import IProduct from '../interfaces/Product';
 import priceToReal from '../helpers/priceToReal';
-import { addToCart } from '../helpers/localStorage';
+import SmallChevronIcon from '../components/SmallChevron';
+import useLocalStorage from '../helpers/useLocalStorage';
 
 interface ContainerProps {
   gap: number;
@@ -60,13 +60,13 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   gap: 5%;
-  margin-bottom: 73px;
-  margin-top: 32px;
+  margin: 32px 0;
 
   @media screen and (min-width: 1024px) {
     flex-direction: row;
     align-items: flex-start;
     gap: 5%;
+    margin-bottom: 73px;
     margin-left: 5%;
     margin-top: 0;
   }
@@ -165,6 +165,14 @@ const Flag = styled.img`
   width: 16px;
 `;
 
+const ScoreContainer = styled(Container)`
+  display: none;
+
+  @media screen  and (min-width: 1024px) {
+    display: flex;
+  }
+`;
+
 const StarsContainer = styled(Container)`
   align-items: center;
 
@@ -178,39 +186,67 @@ const StarsContainer = styled(Container)`
 `;
 
 const MemberPriceContainer = styled.div`
+  align-self: center;
+
   span {
     color: #C81A78;
-    font-size: 19.47px;
-    font-weight: 900;
-    line-height: 32px;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 28px;
+  }
 
-    &:nth-of-type(2) {
-      font-size: 40px;
-    }
+  @media screen and (min-width: 1024px) {
+    align-self: flex-start;
 
-    &:nth-of-type(3) {
-      font-size: 24px;
-    }
+    span {
+      color: #C81A78;
+      font-size: 19.47px;
+      font-weight: 900;
+      line-height: 32px;
 
-    &:nth-of-type(4) {
-      font-size: 32px;
+      &:nth-of-type(2) {
+        font-size: 40px;
+      }
+
+      &:nth-of-type(3) {
+        font-size: 24px;
+      }
+
+      &:nth-of-type(4) {
+        font-size: 32px;
+      }
     }
   }
 
 `;
 
 const NonMemberPriceSpan = styled.span`
+  align-self: center;
   color: #888888;
   font-size: 16px;
   font-weight: 700;
   line-height: 19.2px;
+
+  @media screen and (min-width: 1024px) {
+    align-self: flex-start;
+  }
 `;
 
 const CommentContainer = styled(ColumnContainer)`
   max-width: 448px;
 
+
+  span {
+    color: #333333;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
   h2 {
     color: #111111;
+    display: none;
     font-family: 'Titillium Web', sans-serif;
     font-size: 16px;
     font-weight: 700;
@@ -225,10 +261,30 @@ const CommentContainer = styled(ColumnContainer)`
     line-height: 21px;
     order: 1;
   }
+
+  @media screen and (min-width: 1024px) {
+    span {
+      display: none;
+    }
+
+    h2 {
+      display: block;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
 `;
 
 const ButtonContainer = styled(Container)`
+  align-self: center;
   position: relative;
+
+  @media screen and (min-width: 1024px) {
+    align-self: flex-start;
+  }
 `;
 
 const AddButton = styled.button`
@@ -376,7 +432,7 @@ export default function ProductDetails() {
                   <span>{product.type}</span>
                   <span>{product.classification}</span>
                   <span>{product.volume || product.size}</span>
-                  <Container gap={4.8}>
+                  <ScoreContainer gap={4.8}>
                     <StarsContainer gap={2}>
                       {generateStars()}
                     </StarsContainer>
@@ -385,7 +441,7 @@ export default function ProductDetails() {
                         <span>{`(${product.avaliations})`}</span>
                       )
                     }
-                  </Container>
+                  </ScoreContainer>
                 </Summary>
               </NameContainer>
             </MobileCenterColumn>
@@ -408,6 +464,7 @@ export default function ProductDetails() {
             )
           }
           <CommentContainer gap={8}>
+            <span>Descrição</span>
             <h2>Comentário do Sommelier</h2>
             <p>{product.sommelierComment}</p>
           </CommentContainer>
