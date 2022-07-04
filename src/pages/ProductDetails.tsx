@@ -34,16 +34,30 @@ const BackLink = styled(Link)`
   gap: 16px;
   height: 24px;
   line-height: 24px;
-  margin: 31.77px 0 25px 160px;
+  margin: 31.77px 0 25px 5%;
   text-decoration: none;
   width: 93px;
+
+  @media screen and (min-width: 1280px) {
+    margin-left: 160px;
+  }
 `;
 
 const Main = styled.main`
   display: flex;
-  gap: 162px;
+  gap: 5%;
   margin-bottom: 73px;
-  margin-left: 160px;
+  margin-left: 5%;
+
+  @media screen and (min-width: 1024px) {
+    gap: 5%;
+    margin-left: 5%;
+  }
+  
+  @media screen and (min-width: 1280px) {
+    gap: 162px;
+    margin-left: 160px;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -56,7 +70,11 @@ const Image = styled.img`
 `;
 
 const InfoContainer = styled(ColumnContainer)`
-  max-width: 462px;
+  max-width: 343px;
+
+  @media screen and (min-width: 1024px) {
+    max-width: 462px;
+  }
 `;
 
 const BreadcrumbContainer = styled(Container)`
