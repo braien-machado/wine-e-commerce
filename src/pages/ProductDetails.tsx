@@ -159,11 +159,16 @@ const CommentContainer = styled(ColumnContainer)`
 `;
 
 const ButtonContainer = styled(Container)`
+  position: relative;
+`;
+
+const AddButton = styled.button`
   align-items: center;
   background-color: #7EBC43;
   border-radius: 4px;
+  border: none;
+  display: flex;
   height: 56px;
-  position: relative;
   width: 328px;
 
   span {
@@ -192,11 +197,16 @@ const ButtonContainer = styled(Container)`
   }
 `;
 
-const ChangeQtyContainer = styled(Container)`
+interface ChangeQtyWrapperProps {
+  left: string;
+}
+
+const ChangeQtyWrapper = styled.div<ChangeQtyWrapperProps>`
   align-items: center;
-  height: 100%;
-  left: 22px;
+  display: flex;
+  left: ${(props) => props.left};
   position: absolute;
+  top: 16px;
 
   button {
     align-items: center;
@@ -229,12 +239,11 @@ const ChangeQtyContainer = styled(Container)`
 
 export default function ProductDetails() {
   const [cart, setCart] = useLocalStorage<null | ICartProduct[]>('cart', null);
+  const [counter, setCounter] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuHidden, setIsMenuHidden] = useState(true);
   const [product, setProduct] = useState({} as IProduct);
   const { id } = useParams();
-
-  console.log(product);
 
   useEffect(() => {
     async function fetchApi() {
@@ -330,12 +339,30 @@ export default function ProductDetails() {
             <p>{product.sommelierComment}</p>
           </CommentContainer>
           <ButtonContainer gap={0}>
-            <ChangeQtyContainer gap={73}>
-              <button type="button">-</button>
-              <button type="button">+</button>
-            </ChangeQtyContainer>
-            <span>1</span>
-            <span>Adicionar</span>
+            <AddButton
+              type="button"
+              onClick={() => { console.log('added') }}
+            >
+              <span>{counter}</span>
+              <span>Adicionar</span>
+            </AddButton>
+            <ChangeQtyWrapper left="22px">
+              <button
+                disabled={counter === 1}
+                type="button"
+                onClick={() => setCounter(counter - 1)}
+              >
+                -
+              </button>
+            </ChangeQtyWrapper>
+            <ChangeQtyWrapper left="119px">
+              <button
+                type="button"
+                onClick={() => setCounter(counter + 1)}
+              >
+                +
+              </button>
+            </ChangeQtyWrapper>
           </ButtonContainer>
         </ColumnContainer>
       </Main>
