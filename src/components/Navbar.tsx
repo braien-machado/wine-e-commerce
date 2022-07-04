@@ -78,16 +78,35 @@ export default function Navbar(props: NavbarProps) {
   return (
     <LinksContainer hidden={hidden}>
       {
-        links.map((link) => (
-          <LinkWrapper current={pathname.includes(link.path) ? 'true' : undefined} key={link.name}>
-            <StyledLink
-              current={pathname.includes(link.path) ? 'true' : undefined}
-              to={link.path}
-            >
-              {link.name}
-            </StyledLink>
-          </LinkWrapper>
-        ))
+        links.map((link) => {
+          if (link.path === '/') {
+            return (
+              <LinkWrapper
+                current={pathname === '/' || !links
+                  .some(({ path }) => path === pathname) ? 'true' : undefined}
+                key={link.name}
+              >
+                <StyledLink
+                  current={pathname === '/' || !links
+                    .some(({ path }) => path === pathname) ? 'true' : undefined}
+                  to={link.path}
+                >
+                  {link.name}
+                </StyledLink>
+              </LinkWrapper>
+            );
+          }
+          return (
+            <LinkWrapper current={pathname === link.path ? 'true' : undefined} key={link.name}>
+              <StyledLink
+                current={pathname === link.path ? 'true' : undefined}
+                to={link.path}
+              >
+                {link.name}
+              </StyledLink>
+            </LinkWrapper>
+          );
+        })
       }
     </LinksContainer>
   );
